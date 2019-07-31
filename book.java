@@ -1,18 +1,18 @@
 import java.io.Serializable;
 
-
+//Test of Commit
 @SuppressWarnings("serial")
 public class book implements Serializable {
-	
+
 	private String TITLE;
 	private String AUTHOR;
 	private String CALLNO;
 	private int ID;
-	
+
 	private enum STATE { AVAILABLE, ON_LOAN, DAMAGED, RESERVED };
 	private STATE State;
-	
-	
+
+
 	public book(String author, String title, String callNo, int id) {
 		this.AUTHOR = author;
 		this.TITLE = title;
@@ -20,7 +20,7 @@ public class book implements Serializable {
 		this.ID = id;
 		this.State = STATE.AVAILABLE;
 	}
-	
+
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Book: ").append(ID).append("\n")
@@ -28,7 +28,7 @@ public class book implements Serializable {
 		  .append("  Author: ").append(AUTHOR).append("\n")
 		  .append("  CallNo: ").append(CALLNO).append("\n")
 		  .append("  State:  ").append(State);
-		
+
 		return sb.toString();
 	}
 
@@ -41,22 +41,22 @@ public class book implements Serializable {
 	}
 
 
-	
+
 	public boolean AVAILABLE() {
 		return State == STATE.AVAILABLE;
 	}
 
-	
+
 	public boolean On_loan() {
 		return State == STATE.ON_LOAN;
 	}
 
-	
+
 	public boolean IS_Damaged() {
 		return State == STATE.DAMAGED;
 	}
 
-	
+
 	public void Borrow() {
 		if (State.equals(STATE.AVAILABLE)) {
 			State = STATE.ON_LOAN;
@@ -64,7 +64,7 @@ public class book implements Serializable {
 		else {
 			throw new RuntimeException(String.format("Book: cannot borrow while book is in state: %s", State));
 		}
-		
+
 	}
 
 
@@ -79,10 +79,10 @@ public class book implements Serializable {
 		}
 		else {
 			throw new RuntimeException(String.format("Book: cannot Return while book is in state: %s", State));
-		}		
+		}
 	}
 
-	
+
 	public void Repair() {
 		if (State.equals(STATE.DAMAGED)) {
 			State = STATE.AVAILABLE;
