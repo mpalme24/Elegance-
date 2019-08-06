@@ -38,8 +38,8 @@ public class PayFineUI {
 					break;
 				}
 				try {
-					int Member_ID = Integer.valueOf(Mem_Str).intValue();
-					CoNtRoL.Card_Swiped(Member_ID);
+					int memberId = Integer.valueOf(Mem_Str).intValue();
+					CoNtRoL.Card_Swiped(memberId);
 				}
 				catch (NumberFormatException e) {
 					output("Invalid memberId");

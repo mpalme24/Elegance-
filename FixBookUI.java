@@ -33,12 +33,12 @@ public class FixBookUI {
 			case READY:
 				String Book_STR = input("Scan Book (<enter> completes): ");
 				if (Book_STR.length() == 0) {
-					CoNtRoL.SCannING_COMplete();
+					CoNtRoL.isBookScaned();
 				}
 				else {
 					try {
-						int Book_ID = Integer.valueOf(Book_STR).intValue();
-						CoNtRoL.Book_scanned(Book_ID);
+						int bookId = Integer.valueOf(Book_STR).intValue();
+						CoNtRoL.scanBook(bookId);
 					}
 					catch (NumberFormatException e) {
 						output("Invalid bookId");
@@ -52,7 +52,7 @@ public class FixBookUI {
 				if (AnS.toUpperCase().equals("Y")) {
 					FiX = true;
 				}
-				CoNtRoL.FIX_Book(FiX);
+				CoNtRoL.fixBook(FiX);
 				break;
 								
 			case COMPLETED:

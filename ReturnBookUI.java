@@ -35,8 +35,8 @@ public class ReturnBookUI {
 				}
 				else {
 					try {
-						int Book_Id = Integer.valueOf(Book_STR).intValue();
-						CoNtRoL.Book_scanned(Book_Id);
+						int bookId = Integer.valueOf(Book_STR).intValue();
+						CoNtRoL.Book_scanned(bookId);
 					}
 					catch (NumberFormatException e) {
 						output("Invalid bookId");
