@@ -37,19 +37,19 @@ public class book implements Serializable {
 		return bookTitle;
 	}
 
-	public boolean isAvailble() {
+	public boolean setAvailble() {
 		return bookState == STATE.ISAVAILABLE;
 	}
 
-	public boolean onLoan() {
+	public boolean setLoan() {
 		return bookState == STATE.ONLOAN;
 	}
 
-	public boolean isDamaged() {
+	public boolean setDamaged() {
 		return bookState == STATE.ISDAMAGED;
 	}
 
-	public void isBorrowed() {
+	public void setBorrowed() {
 		if (bookState.equals(STATE.ISAVAILABLE)) {
 			bookState = STATE.ONLOAN;
 		} else {
@@ -58,7 +58,7 @@ public class book implements Serializable {
 
 	}
 
-	public void bookReturned(boolean isDamaged) {
+	public void setReturned(boolean isDamaged) {
 		if (bookState.equals(STATE.ONLOAN)) {
 			if (isDamaged) {
 				bookState = STATE.ISDAMAGED;
@@ -70,11 +70,12 @@ public class book implements Serializable {
 		}
 	}
 
-	public void Repair() {
+	public void setRepair() {
 		if (bookState.equals(STATE.ISDAMAGED)) {
 			bookState = STATE.ISAVAILABLE;
 		} else {
 			throw new RuntimeException(String.format("Book: cannot repair while book is in state: %s", bookState));
 		}
 	}
+
 }
