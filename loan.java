@@ -10,15 +10,15 @@ public class loan implements Serializable {
 	private int ID;
 	private book B;
 	private member M;
-	private Date D;
-	private LOAN_STATE state;
+	private date D;
+	private loanState state;
 
 	
 	public loan(int loanId, book book, member member, Date dueDate) {
 		this.ID = loanId;
-		this.B = book;
-		this.M = member;
-		this.D = dueDate;
+		this.b = book;
+		this.m = member;
+		this.d = dueDate;
 		this.state = LOAN_STATE.CURRENT;
 	}
 
@@ -31,7 +31,7 @@ public class loan implements Serializable {
 	}
 
 	
-	public boolean OVer_Due() {
+	public boolean overDue() {
 		return state == LOAN_STATE.OVER_DUE;
 	}
 
@@ -41,7 +41,7 @@ public class loan implements Serializable {
 	}
 
 
-	public Date Get_Due_Date() {
+	public Date getDueDate() {
 		return D;
 	}
 	
@@ -51,28 +51,28 @@ public class loan implements Serializable {
 
 		StringBuilder sb = new StringBuilder();
 		sb.append("Loan:  ").append(ID).append("\n")
-		  .append("  Borrower ").append(M.GeT_ID()).append(" : ")
-		  .append(M.Get_LastName()).append(", ").append(M.Get_FirstName()).append("\n")
-		  .append("  Book ").append(B.ID()).append(" : " )
-		  .append(B.TITLE()).append("\n")
+		  .append("  Borrower ").append(m.getID()).append(" : ")
+		  .append(m.getLastName()).append(", ").append(m.getFirstName()).append("\n")
+		  .append("  Book ").append(b.ID()).append(" : " )
+		  .append(b.title()).append("\n")
 		  .append("  DueDate: ").append(sdf.format(D)).append("\n")
 		  .append("  State: ").append(state);		
 		return sb.toString();
 	}
 
 
-	public member Member() {
-		return M;
+	public member member() {
+		return m;
 	}
 
 
-	public book Book() {
-		return B;
+	public book book() {
+		return b;
 	}
 
 
-	public void DiScHaRgE() {
-		state = LOAN_STATE.DISCHARGED;		
+	public void discharge() {
+		state = loanStateDischarged;		
 	}
 
 }
