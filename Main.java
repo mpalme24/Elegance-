@@ -2,15 +2,15 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
 
-
 public class Main {
 	private static Scanner keybordInput;
 	private static library Library;
 	private static String menu;
 	private static Calendar calendar;
 	private static SimpleDateFormat simpleDateFormat;
+
 	private static String mainMenu() {
-		StringBuilder mainMenu = new StringBuilder();	
+		StringBuilder mainMenu = new StringBuilder();
 		mainMenu.append("\nLibrary Main Menu\n\n");
 		mainMenu.append("  M  : add member\n");
 		mainMenu.append("  LM : list members\n");
@@ -28,165 +28,179 @@ public class Main {
 		mainMenu.append("  T  : increment date\n");
 		mainMenu.append("  Q  : quit\n");
 		mainMenu.append("\n");
-		mainMenu.append("Choice : ");		  
+		mainMenu.append("Choice : ");
 		return mainMenu.toString();
 	}
-	public static void main(String[] args) {		
-		try {			
+
+	public static void main(String[] args) {
+		try {
 			keybordInput = new Scanner(System.in);
 			Library = library.INSTANCE();
 			calendar = Calendar.INSTANCE();
-			simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");	
-			for (Member member : Library.MEMBERS()) output(member);
+			simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			for (Member member : Library.MEMBERS())
+				output(member);
 			output(" ");
 			for (book book : Library.BOOKS()) {
 				output(book);
 			}
-			menu = mainMenu();		
-			boolean e = false;			
+			menu = mainMenu();
+			boolean e = false;
 			while (!e) {
-				
+
 				output("\n" + simpleDateFormat.format(calendar.Date()));
 				String calendar = input(menu);
-				
+
 				switch (calendar.toUpperCase()) {
-				
-				case "M": //add member
+
+				case "M": // add member
 					addMember();
 					break;
-					
-				case "LM": //list members
+
+				case "LM": // list members
 					listMembers();
 					break;
-					
-				case "B": //add book
+
+				case "B": // add book
 					addBook();
 					break;
-					
-				case "LB": //list books
+
+				case "LB": // list books
 					listBooks();
 					break;
-					
-				case "FB": //fix Book
+
+				case "FB": // fix Book
 					fixBook();
 					break;
-					
-				case "L": //Loan book
+
+				case "L": // Loan book
 					borrowBook();
 					break;
-					
-				case "R": //Retrun Book
+
+				case "R": // Retrun Book
 					returnBook();
 					break;
-					
-				case "LL"://List loans
+
+				case "LL":// List loans
 					listCurrentLoans();
 					break;
-					
-				case "P": //pay
+
+				case "P": // pay
 					payfines();
 					break;
-					
-				case "T": 
+
+				case "T":
 					incrementDate();
 					break;
-					
-				case "Q": //quit
+
+				case "Q": // quit
 					e = true;
 					break;
-					
-				default: 
+
+				default:
 					output("\nInvalid option\n");
 					break;
 				}
-				
+
 				library.SAVE();
-			}			
+			}
 		} catch (RuntimeException e) {
 			output(e);
-		}		
+		}
 		output("\nEnded\n");
-	}	
+	}
+
 	private static void payfines() {
 		PayFineControl PayFineControl = new PayFineControl();
-		PayFineUI payFineUI= new PayFineUI(PayFineControl);
+		PayFineUI payFineUI = new PayFineUI(PayFineControl);
 		payFineUI.RuN();
 	}
+
 	private static void listCurrentLoans() {
 		output("");
 		for (loan loan : Library.CurrentLoans()) {
 			output(loan + "\n");
-		}		
+		}
 	}
+
 	private static void listBooks() {
 		output("");
 		for (book book : Library.BOOKS()) {
 			output(book + "\n");
-		}		
+		}
 	}
+
 	private static void listMembers() {
 		output("");
 		for (Member member : Library.MEMBERS()) {
 			output(member + "\n");
-		}		
+		}
 	}
+
 	private static void borrowBook() {
 		BorrowBookControl borrowBookControl = new BorrowBookControl();
 		BorrowBookUI borrowBookUI = new BorrowBookUI(borrowBookControl);
 		borrowBookUI.run();
 	}
+
 	private static void returnBook() {
 		ReturnBookControl returnBookControl = new ReturnBookControl();
 		ReturnBookUI returnBookUI = new ReturnBookUI(returnBookControl);
-		returnBookUI.RuN();		
+		returnBookUI.RuN();
 	}
+
 	private static void fixBook() {
 		FixBookControl fixBookControl = new FixBookControl();
-		FixBookUI fixBookUI=new FixBookUI(fixBookControl);
-		fixBookUI.RuN();	
+		FixBookUI fixBookUI = new FixBookUI(fixBookControl);
+		fixBookUI.RuN();
 	}
+
 	private static void incrementDate() {
 		try {
-			String dayInput=input("Enter number of days: ");
-			Integer dayInteger=Integer.valueOf(dayInput);
+			String dayInput = input("Enter number of days: ");
+			Integer dayInteger = Integer.valueOf(dayInput);
 			int days = dayInteger.intValue();
 			calendar.incrementDate(days);
 			Library.checkCurrentLoans();
 			Date dateDate = calendar.Date();
 			String dateString = simpleDateFormat.format(dateDate);
-			output(dateString);	
+			output(dateString);
 		} catch (NumberFormatException e) {
-			 output("\nInvalid number of days\n");
+			output("\nInvalid number of days\n");
 		}
 	}
+
 	private static void addBook() {
-		
+
 		String A = input("Enter author: ");
-		String T  = input("Enter title: ");
+		String T = input("Enter title: ");
 		String C = input("Enter call number: ");
 		book B = Library.Add_book(A, T, C);
 		output("\n" + B + "\n");
-		
+
 	}
+
 	private static void addMember() {
 		try {
 			String lastName = input("Enter last name: ");
-			String firstName  = input("Enter first name: ");
+			String firstName = input("Enter first name: ");
 			String emailAddress = input("Enter email: ");
 			String phoneNumberString = input("Enter phone number: ");
-			Integer phoneNumberInteger=Integer.valueOf(phoneNumberString);
+			Integer phoneNumberInteger = Integer.valueOf(phoneNumberString);
 			int phoneNumber = phoneNumberInteger.intValue();
 			Member member = Library.Add_mem(lastName, firstName, emailAddress, phoneNumber);
-			output("\n" + member + "\n");			
+			output("\n" + member + "\n");
 		} catch (NumberFormatException e) {
-			 output("\nInvalid phone number\n");
+			output("\nInvalid phone number\n");
 		}
-		
+
 	}
+
 	private static String input(String prompt) {
 		System.out.print(prompt);
 		return keybordInput.nextLine();
 	}
+
 	private static void output(Object object) {
 		System.out.println(object);
 	}
