@@ -24,21 +24,21 @@ public class ReturnBookControl {
 	}
 
 
-	public void Book_scanned(int bookId) {
+	public void Book_scanned(int Book_ID) {
 		if (!sTaTe.equals(CONTROL_STATE.READY)) {
 			throw new RuntimeException("ReturnBookControl: cannot call bookScanned except in READY state");
 		}	
-		book CUR_book = lIbRaRy.Book(bookId);
+		book CUR_book = lIbRaRy.Book(Book_ID);
 		
 		if (CUR_book == null) {
 			Ui.display("Invalid Book Id");
 			return;
 		}
-		if (!CUR_book.onLoan()) {
+		if (!CUR_book.On_loan()) {
 			Ui.display("Book has not been borrowed");
 			return;
 		}		
-		CurrENT_loan = lIbRaRy.LOAN_BY_getBookId(bookId);	
+		CurrENT_loan = lIbRaRy.LOAN_BY_BOOK_ID(Book_ID);	
 		double Over_Due_Fine = 0.0;
 		if (CurrENT_loan.OVer_Due()) {
 			Over_Due_Fine = lIbRaRy.CalculateOverDueFine(CurrENT_loan);

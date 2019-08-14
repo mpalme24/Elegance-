@@ -1,20 +1,20 @@
 import java.util.Scanner;
 
 
-public class BorrowBookUserInterface {
+public class BorrowBookUI {
 	
-	public static enum UserInterfaceState { INITIALISED, READY, RESTRICTED, SCANNING, IDENTIFIED, FINALISING, COMPLETED, CANCELLED };
+	public static enum UI_STATE { INITIALISED, READY, RESTRICTED, SCANNING, IDENTIFIED, FINALISING, COMPLETED, CANCELLED };
 
 	private BorrowBookControl CONTROL;
 	private Scanner input;
-	private UserInterfaceState StaTe;
+	private UI_STATE StaTe;
 
 	
-	public BorrowBookUserInterface(BorrowBookControl control) {
+	public BorrowBookUI(BorrowBookControl control) {
 		this.CONTROL = control;
 		input = new Scanner(System.in);
-		StaTe = UserInterfaceState.INITIALISED;
-		control.setUserInterface(this);
+		StaTe = UI_STATE.INITIALISED;
+		control.setUI(this);
 	}
 
 	
@@ -29,7 +29,7 @@ public class BorrowBookUserInterface {
 	}
 	
 			
-	public void setState(UserInterfaceState STATE) {
+	public void Set_State(UI_STATE STATE) {
 		this.StaTe = STATE;
 	}
 
@@ -53,8 +53,8 @@ public class BorrowBookUserInterface {
 					break;
 				}
 				try {
-					int memberId = Integer.valueOf(MEM_STR).intValue();
-					CONTROL.setCardSwiped(memberId);
+					int Member_ID = Integer.valueOf(MEM_STR).intValue();
+					CONTROL.Swiped(Member_ID);
 				}
 				catch (NumberFormatException e) {
 					output("Invalid Member Id");
@@ -71,12 +71,12 @@ public class BorrowBookUserInterface {
 			case SCANNING:
 				String Book_Str = input("Scan Book (<enter> completes): ");
 				if (Book_Str.length() == 0) {
-					CONTROL.complete();
+					CONTROL.Complete();
 					break;
 				}
 				try {
 					int BiD = Integer.valueOf(Book_Str).intValue();
-					CONTROL.scanned(BiD);
+					CONTROL.Scanned(BiD);
 					
 				} catch (NumberFormatException e) {
 					output("Invalid Book Id");
@@ -90,7 +90,7 @@ public class BorrowBookUserInterface {
 					CONTROL.cancel();
 					
 				} else {
-					CONTROL.commitLoans();
+					CONTROL.Commit_LOans();
 					input("Press <any key> to complete ");
 				}
 				break;
@@ -109,7 +109,7 @@ public class BorrowBookUserInterface {
 	}
 
 
-	public void display(Object object) {
+	public void Display(Object object) {
 		output(object);		
 	}
 
