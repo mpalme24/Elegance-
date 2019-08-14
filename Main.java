@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class Main {
 	private static Scanner keybordInput;
-	private static Library library;
+	private static library Library;
 	private static String menu;
 	private static Calendar calendar;
 	private static SimpleDateFormat simpleDateFormat;
@@ -34,12 +34,12 @@ public class Main {
 	public static void main(String[] args) {		
 		try {			
 			keybordInput = new Scanner(System.in);
-			library = Library.INSTANCE();
+			Library = library.INSTANCE();
 			calendar = Calendar.INSTANCE();
 			simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");	
-			for (Member member : library.MEMBERS()) output(member);
+			for (Member member : Library.MEMBERS()) output(member);
 			output(" ");
-			for (book book : library.BOOKS()) {
+			for (book book : Library.BOOKS()) {
 				output(book);
 			}
 			menu = mainMenu();		
@@ -100,7 +100,7 @@ public class Main {
 					break;
 				}
 				
-				Library.SAVE();
+				library.SAVE();
 			}			
 		} catch (RuntimeException e) {
 			output(e);
@@ -114,19 +114,19 @@ public class Main {
 	}
 	private static void listCurrentLoans() {
 		output("");
-		for (loan loan : library.CurrentLoans()) {
+		for (loan loan : Library.CurrentLoans()) {
 			output(loan + "\n");
 		}		
 	}
 	private static void listBooks() {
 		output("");
-		for (book book : library.BOOKS()) {
+		for (book book : Library.BOOKS()) {
 			output(book + "\n");
 		}		
 	}
 	private static void listMembers() {
 		output("");
-		for (Member member : library.MEMBERS()) {
+		for (Member member : Library.MEMBERS()) {
 			output(member + "\n");
 		}		
 	}
@@ -151,7 +151,7 @@ public class Main {
 			Integer dayInteger=Integer.valueOf(dayInput);
 			int days = dayInteger.intValue();
 			calendar.incrementDate(days);
-			library.checkCurrentLoans();
+			Library.checkCurrentLoans();
 			Date dateDate = calendar.Date();
 			String dateString = simpleDateFormat.format(dateDate);
 			output(dateString);	
@@ -164,7 +164,7 @@ public class Main {
 		String A = input("Enter author: ");
 		String T  = input("Enter title: ");
 		String C = input("Enter call number: ");
-		book B = library.Add_book(A, T, C);
+		book B = Library.Add_book(A, T, C);
 		output("\n" + B + "\n");
 		
 	}
@@ -176,7 +176,7 @@ public class Main {
 			String phoneNumberString = input("Enter phone number: ");
 			Integer phoneNumberInteger=Integer.valueOf(phoneNumberString);
 			int phoneNumber = phoneNumberInteger.intValue();
-			Member member = library.Add_mem(lastName, firstName, emailAddress, phoneNumber);
+			Member member = Library.Add_mem(lastName, firstName, emailAddress, phoneNumber);
 			output("\n" + member + "\n");			
 		} catch (NumberFormatException e) {
 			 output("\nInvalid phone number\n");
