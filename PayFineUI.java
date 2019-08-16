@@ -13,7 +13,7 @@ public class PayFineUI {
 		this.control = newControl;
 		keybordInput = new Scanner(System.in);
 		fineState = UiFineState.INITIALISED;
-		newControl.Set_UI(this);
+		newControl.setUserInterface(this);
 	}
 
 	public void setFineState(UiFineState newFineState) {
@@ -30,7 +30,7 @@ public class PayFineUI {
 			case READY:
 				String membercard = input("Swipe member card (press <enter> to cancel): ");
 				if (membercard.length() == 0) {
-					control.CaNcEl();
+					control.cancelFine();
 					break;
 				}
 				try {
@@ -46,7 +46,7 @@ public class PayFineUI {
 				double fineAmount = 0;
 				String inputAmount = input("Enter amount (<Enter> cancels) : ");
 				if (inputAmount.length() == 0) {
-					control.CaNcEl();
+					control.cancelFine();
 					break;
 				}
 				try {
@@ -58,7 +58,7 @@ public class PayFineUI {
 					output("Amount must be positive");
 					break;
 				}
-				control.PaY_FiNe(fineAmount);
+				control.payFine(fineAmount);
 				break;
 
 			case CANCELLED:
