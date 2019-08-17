@@ -8,9 +8,7 @@ public class book implements Serializable {
 	private String bookCallNumber;
 	private int bookId;
 
-	private enum BookState {
-		AVAILABLE, ONLOAN, DAMAGED, RESERVED
-	};
+	private enum BookState {AVAILABLE, ONLOAN, DAMAGED, RESERVED};
 
 	private BookState State;
 
@@ -68,7 +66,6 @@ public class book implements Serializable {
 			String format = String.format("Book: cannot borrow while book is in state: %s", State);
 			throw new RuntimeException(format);
 		}
-
 	}
 
 	public void setBookReturnedState(boolean DAMAGED) {
