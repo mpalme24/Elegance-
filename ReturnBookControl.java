@@ -4,8 +4,8 @@ public class ReturnBookControl {
 	private enum RetunrBookControlState { INITIALISED, READY, INSPECTING };
 	private RetunrBookControlState state;
 	
-	private Library library;
-	private Loan currentLoan;
+	private library library;
+	private loan currentLoan;
 	
 
 	public ReturnBookControl() {
@@ -28,7 +28,7 @@ public class ReturnBookControl {
 		if (!state.equals(RetunrBookControlState.READY)) {
 			throw new RuntimeException("ReturnBookControl: cannot call bookScanned except in READY state");
 		}	
-		Book currentBook = library.getBook(bookId);
+		book currentBook = library.getBook(bookId);
 		
 		if (currentBook == null) {
 			returnBookUi.display("Invalid Book Id");

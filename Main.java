@@ -4,7 +4,7 @@ import java.util.Scanner;
 public class Main {
 
 	private static Scanner keybordInput;
-	private static Library library;
+	private static library library;
 	private static String menu;
 	private static Calendar calendar;
 	private static SimpleDateFormat simpleDateFormat;
@@ -36,15 +36,15 @@ public class Main {
 	public static void main(String[] args) {
 		try {
 			keybordInput = new Scanner(System.in);
-			library = Library.instanceLibrary();
+			library = library.instanceLibrary();
 			calendar = Calendar.instanceCalendar();
 			simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
-			for (Member member : library.currentMembers()) {
+			for (member member : library.currentMembers()) {
 				output(member);
 			}
 			output(" ");
-			for (Book book : library.currentBooks()) {
+			for (book book : library.currentBooks()) {
 				output(book);
 			}
 
@@ -108,7 +108,7 @@ public class Main {
 					break;
 				}
 
-				Library.saveLibrary();
+				library.saveLibrary();
 			}
 		} catch (RuntimeException e) {
 			output(e);
@@ -124,21 +124,21 @@ public class Main {
 
 	private static void listCurrentLoans() {
 		output("");
-		for (Loan loan : library.currentLoans()) {
+		for (loan loan : library.currentLoans()) {
 			output(loan + "\n");
 		}
 	}
 
 	private static void listBooks() {
 		output("");
-		for (Book book : library.currentBooks()) {
+		for (book book : library.currentBooks()) {
 			output(book + "\n");
 		}
 	}
 
 	private static void listMembers() {
 		output("");
-		for (Member member : library.currentMembers()) {
+		for (member member : library.currentMembers()) {
 			output(member + "\n");
 		}
 	}
@@ -179,7 +179,7 @@ public class Main {
 		String author = input("Enter author: ");
 		String title = input("Enter title: ");
 		String callNumber = input("Enter call number: ");
-		Book book = library.addBook(author, title, callNumber);
+		book book = library.addBook(author, title, callNumber);
 		output("\n" + book + "\n");
 
 	}
@@ -192,7 +192,7 @@ public class Main {
 			String phoneNumberString = input("Enter phone number: ");
 			Integer phoneNumberInteger = Integer.valueOf(phoneNumberString);
 			int phoneNumber = phoneNumberInteger.intValue();
-			Member member = library.addMember(lastName, firstName, email, phoneNumber);
+			member member = library.addMember(lastName, firstName, email, phoneNumber);
 			output("\n" + member + "\n");
 
 		} catch (NumberFormatException e) {

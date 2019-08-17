@@ -4,8 +4,8 @@ public class PayFineControl {
 	private enum FineControlState { INITIALISED, READY, PAYING, COMPLETED, CANCELLED };
 	private FineControlState fineState;
 	
-	private Library library;
-	private Member member;
+	private library library;
+	private member member;
 
 	public PayFineControl() {
 		this.library = library.instanceLibrary();

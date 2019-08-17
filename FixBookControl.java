@@ -6,8 +6,8 @@ public class FixBookControl {
 	};
 
 	private FixBookControlState fixBookState;
-	private Library library;
-	private Book currentBook;
+	private library library;
+	private book currentBook;
 
 	public FixBookControl() {
 		this.library = library.instanceLibrary();
