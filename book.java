@@ -39,6 +39,7 @@ public class book implements Serializable {
 		bookStringBuilder.append("  State:  ");
 		bookStringBuilder.append(State);
 		return bookStringBuilder.toString();
+
 	}
 
 	public Integer getBookId() {
