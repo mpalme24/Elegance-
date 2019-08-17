@@ -2,95 +2,95 @@ import java.io.Serializable;
 
 //Test of Commit
 @SuppressWarnings("serial")
-public class book implements Serializable {
+public class Book implements Serializable {
 
-	private String TITLE;
-	private String AUTHOR;
-	private String CALLNO;
-	private int ID;
+	private String bookTitle;
+	private String bookAuthor;
+	private String bookCallNumber;
+	private int bookId;
 
-	private enum STATE { AVAILABLE, ON_LOAN, DAMAGED, RESERVED };
-	private STATE State;
+	private enum BookState {
+		AVAILABLE, ONLOAN, DAMAGED, RESERVED
+	};
 
+	private BookState bookState;
 
-	public book(String author, String title, String callNo, int id) {
-		this.AUTHOR = author;
-		this.TITLE = title;
-		this.CALLNO = callNo;
-		this.ID = id;
-		this.State = STATE.AVAILABLE;
+	public Book(String newBookAuthor, String newBookTitle, String newBookCallNumber, int newBookId) {
+		this.bookAuthor = newBookAuthor;
+		this.bookTitle = newBookTitle;
+		this.bookCallNumber = newBookCallNumber;
+		this.bookId = newBookId;
+		this.bookState = BookState.AVAILABLE;
 	}
 
 	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("Book: ").append(ID).append("\n")
-		  .append("  Title:  ").append(TITLE).append("\n")
-		  .append("  Author: ").append(AUTHOR).append("\n")
-		  .append("  CallNo: ").append(CALLNO).append("\n")
-		  .append("  State:  ").append(State);
-
-		return sb.toString();
+		StringBuilder bookStringBuilder = new StringBuilder();
+		bookStringBuilder.append("Book: ");
+		bookStringBuilder.append(bookId);
+		bookStringBuilder.append("\n");
+		bookStringBuilder.append("  Title:  ");
+		bookStringBuilder.append(bookTitle);
+		bookStringBuilder.append("\n");
+		bookStringBuilder.append("  Author: ");
+		bookStringBuilder.append(bookAuthor);
+		bookStringBuilder.append("\n");
+		bookStringBuilder.append("  CallNo: ");
+		bookStringBuilder.append(bookCallNumber);
+		bookStringBuilder.append("\n");
+		bookStringBuilder.append("  State:  ");
+		bookStringBuilder.append(bookState);
+		return bookStringBuilder.toString();
 	}
 
-	public Integer ID() {
-		return ID;
+	public Integer getBookId() {
+		return bookId;
 	}
 
-	public String TITLE() {
-		return TITLE;
+	public String getBookTitle() {
+		return bookTitle;
 	}
 
-
-
-	public boolean AVAILABLE() {
-		return State == STATE.AVAILABLE;
+	public boolean getBookStateAvailable() {
+		return bookState == BookState.AVAILABLE;
 	}
 
-
-	public boolean On_loan() {
-		return State == STATE.ON_LOAN;
+	public boolean getBookStateOnloan() {
+		return bookState == BookState.ONLOAN;
 	}
 
-
-	public boolean IS_Damaged() {
-		return State == STATE.DAMAGED;
+	public boolean getBookStateIsDamaged() {
+		return bookState == BookState.DAMAGED;
 	}
 
-
-	public void Borrow() {
-		if (State.equals(STATE.AVAILABLE)) {
-			State = STATE.ON_LOAN;
+	public void setBookBorrowed() {
+		if (bookState.equals(BookState.AVAILABLE)) {
+			bookState = BookState.ONLOAN;
+		} else {
+			String format = String.format("Book: cannot borrow while book is in state: %s", bookState);
+			throw new RuntimeException(format);
 		}
-		else {
-			throw new RuntimeException(String.format("Book: cannot borrow while book is in state: %s", State));
-		}
 
 	}
 
-
-	public void Return(boolean DAMAGED) {
-		if (State.equals(STATE.ON_LOAN)) {
+	public void setBookReturnedState(boolean DAMAGED) {
+		if (bookState.equals(BookState.ONLOAN)) {
 			if (DAMAGED) {
-				State = STATE.DAMAGED;
+				bookState = BookState.DAMAGED;
+			} else {
+				bookState = BookState.AVAILABLE;
 			}
-			else {
-				State = STATE.AVAILABLE;
-			}
-		}
-		else {
-			throw new RuntimeException(String.format("Book: cannot Return while book is in state: %s", State));
+		} else {
+			String format = String.format("Book: cannot Return while book is in state: %s", bookState);
+			throw new RuntimeException(format);
 		}
 	}
 
-
-	public void Repair() {
-		if (State.equals(STATE.DAMAGED)) {
-			State = STATE.AVAILABLE;
-		}
-		else {
-			throw new RuntimeException(String.format("Book: cannot repair while book is in state: %s", State));
+	public void setBookStateRepair() {
+		if (bookState.equals(BookState.DAMAGED)) {
+			bookState = BookState.AVAILABLE;
+		} else {
+			String format = String.format("Book: cannot repair while book is in state: %s", bookState);
+			throw new RuntimeException(format);
 		}
 	}
-
-
 }
