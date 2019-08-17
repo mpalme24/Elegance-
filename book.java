@@ -8,7 +8,9 @@ public class book implements Serializable {
 	private String bookCallNumber;
 	private int bookId;
 
-	private enum BookState {AVAILABLE, ONLOAN, DAMAGED, RESERVED};
+	private enum BookState {
+		AVAILABLE, ONLOAN, DAMAGED, RESERVED
+	};
 
 	private BookState State;
 
