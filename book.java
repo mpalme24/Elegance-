@@ -1,120 +1,95 @@
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @SuppressWarnings("serial")
-public class member implements Serializable {
+public class book implements Serializable {
 
-	private String memberLastName;
-	private String memberFirstName;
-	private String memberEmail;
-	private int memberPhoneNumber;
-	private int memberId;
-	private double memberFines;
-	
-	private Map<Integer, loan> memberLoans;
+	private String bookTitle;
+	private String bookAuthor;
+	private String bookCallNumber;
+	private int bookId;
 
-	
-	public member(String lastName, String firstName, String email, int phoneNo, int id) {
-		this.memberLastName = lastName;
-		this.memberFirstName = firstName;
-		this.memberEmail = email;
-		this.memberPhoneNumber = phoneNo;
-		this.memberId = id;
-		this.memberLoans = new HashMap<>();//not sure what this do could someone fix workitout so is can update it
+	private enum BookState {
+		AVAILABLE, ONLOAN, DAMAGED, RESERVED
+	};
+
+	private BookState bookState;
+
+	public book(String author, String title, String callNumber, int id) {
+		this.bookAuthor = author;
+		this.bookTitle = title;
+		this.bookCallNumber = callNumber;
+		this.bookId = id;
+		this.bookState = BookState.AVAILABLE;
 	}
 
-	
 	public String toString() {
-		StringBuilder memberStringBuilder = new StringBuilder();
-		memberStringBuilder.append("Member:  ");
-		memberStringBuilder.append(memberId);
-		memberStringBuilder.append("\n");
-		memberStringBuilder.append("  Name:  ");
-		memberStringBuilder.append(memberLastName);
-		memberStringBuilder.append(", ");
-		memberStringBuilder.append(memberFirstName);
-		memberStringBuilder.append("\n");
-		memberStringBuilder.append("  Email: ");
-		memberStringBuilder.append(memberEmail);
-		memberStringBuilder.append("\n");
-		memberStringBuilder.append("  Phone: ");
-		memberStringBuilder.append(memberPhoneNumber);
-		memberStringBuilder.append("\n");
-		memberStringBuilder.append(String.format("  Fines Owed :  $%.2f", memberFines));
-		memberStringBuilder.append("\n");
-		
-		for (loan loan : memberLoans.values()) {
-			memberStringBuilder.append(loan).append("\n");
-		}		  
-		return memberStringBuilder.toString();
+		StringBuilder bookStringBuilder = new StringBuilder();
+		bookStringBuilder.append("Book: ");
+		bookStringBuilder.append(bookId);
+		bookStringBuilder.append("\n");
+		bookStringBuilder.append("  Title:  ");
+		bookStringBuilder.append(bookTitle);
+		bookStringBuilder.append("\n");
+		bookStringBuilder.append("  Author: ");
+		bookStringBuilder.append(bookAuthor);
+		bookStringBuilder.append("\n");
+		bookStringBuilder.append("  CallNo: ");
+		bookStringBuilder.append(bookCallNumber);
+		bookStringBuilder.append("\n");
+		bookStringBuilder.append("  State:  ");
+		bookStringBuilder.append(bookState);
+		return bookStringBuilder.toString();
 	}
 
-	public int getId() {
-		return memberId;
+	public Integer getBookId() {
+		return bookId;
 	}
 
-	public List<loan> getLoans() {
-		return new ArrayList<loan>(memberLoans.values());
+	public String getBookTitle() {
+		return bookTitle;
 	}
 
-	
-	public int getNumberOfCurrentLoans() {
-		return memberLoans.size();
+	public boolean getBookStateAvailable() {
+		return bookState == BookState.AVAILABLE;
 	}
 
-	
-	public double getFinesOwed() {
-		return memberFines;
+	public boolean getBookStateOnloan() {
+		return bookState == BookState.ONLOAN;
 	}
 
-	
-	public void takeOutLoan(loan loan) {
-		if (!memberLoans.containsKey(loan.getLoanId())) {
-			memberLoans.put(loan.getLoanId(), loan);
+	public boolean getBookStateIsDamaged() {
+		return bookState == BookState.DAMAGED;
+	}
+
+	public void setBookBorrowed() {
+		if (bookState.equals(BookState.AVAILABLE)) {
+			bookState = BookState.ONLOAN;
+		} else {
+			String format = String.format("Book: cannot borrow while book is in state: %s", bookState);
+			throw new RuntimeException(format);
 		}
-		else {
-			throw new RuntimeException("Duplicate loan added to member");
-		}		
+
 	}
 
-	
-	public String getLastName() {
-		return memberLastName;
+	public void setBookReturnedState(boolean DAMAGED) {
+		if (bookState.equals(BookState.ONLOAN)) {
+			if (DAMAGED) {
+				bookState = BookState.DAMAGED;
+			} else {
+				bookState = BookState.AVAILABLE;
+			}
+		} else {
+			String format = String.format("Book: cannot Return while book is in state: %s", bookState);
+			throw new RuntimeException(format);
+		}
 	}
 
-	
-	public String getFirstName() {
-		return memberFirstName;
-	}
-
-
-	public void addFine(double fine) {
-		memberFines += fine;
-	}
-	
-	public double payFine(double amount) {
-		if (amount < 0) {
-			throw new RuntimeException("Member.payFine: amount must be positive");
+	public void setBookStateRepair() {
+		if (bookState.equals(BookState.DAMAGED)) {
+			bookState = BookState.AVAILABLE;
+		} else {
+			String format = String.format("Book: cannot repair while book is in state: %s", bookState);
+			throw new RuntimeException(format);
 		}
-		double change = 0;
-		if (amount > memberFines) {
-			change = amount - memberFines;
-			memberFines = 0;
-		}
-		else {
-			memberFines -= amount;
-		}
-		return change;
-	}
-	public void dischargeLoan(loan loan) {
-		if (memberLoans.containsKey(loan.getLoanId())) {
-			memberLoans.remove(loan.getLoanId());
-		}
-		else {
-			throw new RuntimeException("No such loan held by member");
-		}		
 	}
 }
