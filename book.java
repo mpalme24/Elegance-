@@ -1,6 +1,5 @@
 import java.io.Serializable;
 
-//Test of Commit
 @SuppressWarnings("serial")
 public class Book implements Serializable {
 
