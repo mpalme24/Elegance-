@@ -12,14 +12,14 @@ public class book implements Serializable {
 		AVAILABLE, ONLOAN, DAMAGED, RESERVED
 	};
 
-	private BookState bookState;
+	private BookState State;
 
 	public book(String author, String title, String callNumber, int id) {
 		this.bookAuthor = author;
 		this.bookTitle = title;
 		this.bookCallNumber = callNumber;
 		this.bookId = id;
-		this.bookState = BookState.AVAILABLE;
+		this.State = BookState.AVAILABLE;
 	}
 
 	public String toString() {
@@ -37,7 +37,7 @@ public class book implements Serializable {
 		bookStringBuilder.append(bookCallNumber);
 		bookStringBuilder.append("\n");
 		bookStringBuilder.append("  State:  ");
-		bookStringBuilder.append(bookState);
+		bookStringBuilder.append(State);
 		return bookStringBuilder.toString();
 	}
 
@@ -50,45 +50,45 @@ public class book implements Serializable {
 	}
 
 	public boolean getBookStateAvailable() {
-		return bookState == BookState.AVAILABLE;
+		return State == BookState.AVAILABLE;
 	}
 
 	public boolean getBookStateOnloan() {
-		return bookState == BookState.ONLOAN;
+		return State == BookState.ONLOAN;
 	}
 
 	public boolean getBookStateIsDamaged() {
-		return bookState == BookState.DAMAGED;
+		return State == BookState.DAMAGED;
 	}
 
 	public void setBookBorrowed() {
-		if (bookState.equals(BookState.AVAILABLE)) {
-			bookState = BookState.ONLOAN;
+		if (State.equals(BookState.AVAILABLE)) {
+			State = BookState.ONLOAN;
 		} else {
-			String format = String.format("Book: cannot borrow while book is in state: %s", bookState);
+			String format = String.format("Book: cannot borrow while book is in state: %s", State);
 			throw new RuntimeException(format);
 		}
 
 	}
 
 	public void setBookReturnedState(boolean DAMAGED) {
-		if (bookState.equals(BookState.ONLOAN)) {
+		if (State.equals(BookState.ONLOAN)) {
 			if (DAMAGED) {
-				bookState = BookState.DAMAGED;
+				State = BookState.DAMAGED;
 			} else {
-				bookState = BookState.AVAILABLE;
+				State = BookState.AVAILABLE;
 			}
 		} else {
-			String format = String.format("Book: cannot Return while book is in state: %s", bookState);
+			String format = String.format("Book: cannot Return while book is in state: %s", State);
 			throw new RuntimeException(format);
 		}
 	}
 
 	public void setBookStateRepair() {
-		if (bookState.equals(BookState.DAMAGED)) {
-			bookState = BookState.AVAILABLE;
+		if (State.equals(BookState.DAMAGED)) {
+			State = BookState.AVAILABLE;
 		} else {
-			String format = String.format("Book: cannot repair while book is in state: %s", bookState);
+			String format = String.format("Book: cannot repair while book is in state: %s", State);
 			throw new RuntimeException(format);
 		}
 	}
