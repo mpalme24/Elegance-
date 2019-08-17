@@ -1,99 +1,105 @@
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Scanner;
 
 public class Main {
+
 	private static Scanner keybordInput;
-	private static library Library;
+	private static Library library;
 	private static String menu;
 	private static Calendar calendar;
 	private static SimpleDateFormat simpleDateFormat;
 
-	private static String mainMenu() {
-		StringBuilder mainMenu = new StringBuilder();
-		mainMenu.append("\nLibrary Main Menu\n\n");
-		mainMenu.append("  M  : add member\n");
-		mainMenu.append("  LM : list members\n");
-		mainMenu.append("\n");
-		mainMenu.append("  B  : add book\n");
-		mainMenu.append("  LB : list books\n");
-		mainMenu.append("  FB : fix books\n");
-		mainMenu.append("\n");
-		mainMenu.append("  L  : take out a loan\n");
-		mainMenu.append("  R  : return a loan\n");
-		mainMenu.append("  LL : list loans\n");
-		mainMenu.append("\n");
-		mainMenu.append("  P  : pay fine\n");
-		mainMenu.append("\n");
-		mainMenu.append("  T  : increment date\n");
-		mainMenu.append("  Q  : quit\n");
-		mainMenu.append("\n");
-		mainMenu.append("Choice : ");
-		return mainMenu.toString();
+	private static String getMenu() {
+		StringBuilder menuStringBuilder = new StringBuilder();
+		menuStringBuilder.append("\nLibrary Main Menu\n\n");
+		menuStringBuilder.append("  M  : add member\n");
+		menuStringBuilder.append("  LM : list members\n");
+		menuStringBuilder.append("\n");
+		menuStringBuilder.append("  B  : add book\n");
+		menuStringBuilder.append("  LB : list books\n");
+		menuStringBuilder.append("  FB : fix books\n");
+		menuStringBuilder.append("\n");
+		menuStringBuilder.append("  L  : take out a loan\n");
+		menuStringBuilder.append("  R  : return a loan\n");
+		menuStringBuilder.append("  LL : list loans\n");
+		menuStringBuilder.append("\n");
+		menuStringBuilder.append("  P  : pay fine\n");
+		menuStringBuilder.append("\n");
+		menuStringBuilder.append("  T  : increment date\n");
+		menuStringBuilder.append("  Q  : quit\n");
+		menuStringBuilder.append("\n");
+		menuStringBuilder.append("Choice : ");
+
+		return menuStringBuilder.toString();
 	}
 
 	public static void main(String[] args) {
 		try {
 			keybordInput = new Scanner(System.in);
-			Library = library.INSTANCE();
-			calendar = Calendar.INSTANCE();
+			library = Library.instanceLibrary();
+			calendar = Calendar.instanceCalendar();
 			simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-			for (Member member : Library.MEMBERS())
+
+			for (Member member : library.currentMembers()) {
 				output(member);
+			}
 			output(" ");
-			for (book book : Library.BOOKS()) {
+			for (Book book : library.currentBooks()) {
 				output(book);
 			}
-			menu = mainMenu();
+
+			menu = getMenu();
+
 			boolean e = false;
+
 			while (!e) {
 
-				output("\n" + simpleDateFormat.format(calendar.Date()));
-				String calendar = input(menu);
+				output("\n" + simpleDateFormat.format(calendar.date()));
+				String c = input(menu);
 
-				switch (calendar.toUpperCase()) {
+				switch (c.toUpperCase()) {
 
 				case "M": // add member
 					addMember();
 					break;
 
-				case "LM": // list members
+				case "LM"://list members
 					listMembers();
 					break;
 
-				case "B": // add book
+				case "B"://add Book
 					addBook();
 					break;
 
-				case "LB": // list books
+				case "LB"://ListBooks
 					listBooks();
 					break;
 
-				case "FB": // fix Book
+				case "FB"://fixBook
 					fixBook();
 					break;
 
-				case "L": // Loan book
+				case "L"://loanBook
 					borrowBook();
 					break;
 
-				case "R": // Retrun Book
+				case "R"://return book
 					returnBook();
 					break;
 
-				case "LL":// List loans
+				case "LL"://listloans
 					listCurrentLoans();
 					break;
 
-				case "P": // pay
-					payfines();
+				case "P"://pay
+					payFines();
 					break;
 
 				case "T":
 					incrementDate();
 					break;
 
-				case "Q": // quit
+				case "Q"://quit
 					e = true;
 					break;
 
@@ -102,7 +108,7 @@ public class Main {
 					break;
 				}
 
-				library.SAVE();
+				Library.saveLibrary();
 			}
 		} catch (RuntimeException e) {
 			output(e);
@@ -110,29 +116,29 @@ public class Main {
 		output("\nEnded\n");
 	}
 
-	private static void payfines() {
+	private static void payFines() {
 		PayFineControl PayFineControl = new PayFineControl();
 		PayFineUI payFineUI = new PayFineUI(PayFineControl);
-		payFineUI.RuN();
+		payFineUI.runPayFineUi();
 	}
 
 	private static void listCurrentLoans() {
 		output("");
-		for (loan loan : Library.CurrentLoans()) {
+		for (Loan loan : library.currentLoans()) {
 			output(loan + "\n");
 		}
 	}
 
 	private static void listBooks() {
 		output("");
-		for (book book : Library.BOOKS()) {
+		for (Book book : library.currentBooks()) {
 			output(book + "\n");
 		}
 	}
 
 	private static void listMembers() {
 		output("");
-		for (Member member : Library.MEMBERS()) {
+		for (Member member : library.currentMembers()) {
 			output(member + "\n");
 		}
 	}
@@ -140,31 +146,29 @@ public class Main {
 	private static void borrowBook() {
 		BorrowBookControl borrowBookControl = new BorrowBookControl();
 		BorrowBookUI borrowBookUI = new BorrowBookUI(borrowBookControl);
-		borrowBookUI.run();
+		borrowBookUI.runBorrowBookUi();
 	}
 
 	private static void returnBook() {
 		ReturnBookControl returnBookControl = new ReturnBookControl();
 		ReturnBookUI returnBookUI = new ReturnBookUI(returnBookControl);
-		returnBookUI.RuN();
+		returnBookUI.runReturnBookUi();
 	}
 
 	private static void fixBook() {
 		FixBookControl fixBookControl = new FixBookControl();
 		FixBookUI fixBookUI = new FixBookUI(fixBookControl);
-		fixBookUI.RuN();
+		fixBookUI.runFixBookUi();
 	}
 
 	private static void incrementDate() {
 		try {
 			String dayInput = input("Enter number of days: ");
 			Integer dayInteger = Integer.valueOf(dayInput);
-			int days = dayInteger.intValue();
-			calendar.incrementDate(days);
-			Library.checkCurrentLoans();
-			Date dateDate = calendar.Date();
-			String dateString = simpleDateFormat.format(dateDate);
-			output(dateString);
+			int daysInt = dayInteger.intValue();
+			calendar.incrementDate(daysInt);
+			library.checkCurrentLoans();
+			output(simpleDateFormat.format(calendar.date()));
 		} catch (NumberFormatException e) {
 			output("\nInvalid number of days\n");
 		}
@@ -172,11 +176,11 @@ public class Main {
 
 	private static void addBook() {
 
-		String A = input("Enter author: ");
-		String T = input("Enter title: ");
-		String C = input("Enter call number: ");
-		book B = Library.Add_book(A, T, C);
-		output("\n" + B + "\n");
+		String author = input("Enter author: ");
+		String title = input("Enter title: ");
+		String callNumber = input("Enter call number: ");
+		Book book = library.addBook(author, title, callNumber);
+		output("\n" + book + "\n");
 
 	}
 
@@ -184,16 +188,16 @@ public class Main {
 		try {
 			String lastName = input("Enter last name: ");
 			String firstName = input("Enter first name: ");
-			String emailAddress = input("Enter email: ");
+			String email = input("Enter email: ");
 			String phoneNumberString = input("Enter phone number: ");
 			Integer phoneNumberInteger = Integer.valueOf(phoneNumberString);
 			int phoneNumber = phoneNumberInteger.intValue();
-			Member member = Library.Add_mem(lastName, firstName, emailAddress, phoneNumber);
+			Member member = library.addMember(lastName, firstName, email, phoneNumber);
 			output("\n" + member + "\n");
+
 		} catch (NumberFormatException e) {
 			output("\nInvalid phone number\n");
 		}
-
 	}
 
 	private static String input(String prompt) {
