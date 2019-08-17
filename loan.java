@@ -3,17 +3,17 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @SuppressWarnings("serial")
-public class Loan implements Serializable {
+public class loan implements Serializable {
 	
 	public static enum LoanState { CURRENT, OVER_DUE, DISCHARGED };
 	
 	private int loanId;
-	private Book book;
-	private Member member;
+	private book book;
+	private member member;
 	private Date dueDate;
 	private LoanState loanState;
 
-	public Loan(int loanId, Book book, Member member, Date dueDate) {
+	public loan(int loanId, book book, member member, Date dueDate) {
 		this.loanId = loanId;
 		this.book = book;
 		this.member = member;
@@ -67,12 +67,12 @@ public class Loan implements Serializable {
 		return loanStringBuilder.toString();
 	}
 
-	public Member Member() {
+	public member Member() {
 		return member;
 	}
 
 
-	public Book Book() {
+	public book Book() {
 		return book;
 	}
 
