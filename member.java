@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 @SuppressWarnings("serial")
-public class Member implements Serializable {
+public class member implements Serializable {
 
 	private String memberLastName;
 	private String memberFirstName;
@@ -14,10 +14,10 @@ public class Member implements Serializable {
 	private int memberId;
 	private double memberFines;
 	
-	private Map<Integer, Loan> memberLoans;
+	private Map<Integer, loan> memberLoans;
 
 	
-	public Member(String lastName, String firstName, String email, int phoneNo, int id) {
+	public member(String lastName, String firstName, String email, int phoneNo, int id) {
 		this.memberLastName = lastName;
 		this.memberFirstName = firstName;
 		this.memberEmail = email;
@@ -46,7 +46,7 @@ public class Member implements Serializable {
 		memberStringBuilder.append(String.format("  Fines Owed :  $%.2f", memberFines));
 		memberStringBuilder.append("\n");
 		
-		for (Loan loan : memberLoans.values()) {
+		for (loan loan : memberLoans.values()) {
 			memberStringBuilder.append(loan).append("\n");
 		}		  
 		return memberStringBuilder.toString();
@@ -56,8 +56,8 @@ public class Member implements Serializable {
 		return memberId;
 	}
 
-	public List<Loan> getLoans() {
-		return new ArrayList<Loan>(memberLoans.values());
+	public List<loan> getLoans() {
+		return new ArrayList<loan>(memberLoans.values());
 	}
 
 	
@@ -71,7 +71,7 @@ public class Member implements Serializable {
 	}
 
 	
-	public void takeOutLoan(Loan loan) {
+	public void takeOutLoan(loan loan) {
 		if (!memberLoans.containsKey(loan.getLoanId())) {
 			memberLoans.put(loan.getLoanId(), loan);
 		}
@@ -109,7 +109,7 @@ public class Member implements Serializable {
 		}
 		return change;
 	}
-	public void dischargeLoan(Loan loan) {
+	public void dischargeLoan(loan loan) {
 		if (memberLoans.containsKey(loan.getLoanId())) {
 			memberLoans.remove(loan.getLoanId());
 		}
