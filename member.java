@@ -7,67 +7,73 @@ import java.util.Map;
 @SuppressWarnings("serial")
 public class member implements Serializable {
 
-	private String LN;
-	private String FN;
-	private String EM;
-	private int PN;
-	private int ID;
-	private double FINES;
+	private String memberLastName;
+	private String memberFirstName;
+	private String memberEmail;
+	private int memberPhoneNumber;
+	private int memberId;
+	private double memberFines;
 	
-	private Map<Integer, loan> LNS;
+	private Map<Integer, loan> memberLoans;
 
 	
 	public member(String lastName, String firstName, String email, int phoneNo, int id) {
-		this.LN = lastName;
-		this.FN = firstName;
-		this.EM = email;
-		this.PN = phoneNo;
-		this.ID = id;
-		
-		this.LNS = new HashMap<>();
+		this.memberLastName = lastName;
+		this.memberFirstName = firstName;
+		this.memberEmail = email;
+		this.memberPhoneNumber = phoneNo;
+		this.memberId = id;
+		this.memberLoans = new HashMap<>();//not sure what this do could someone fix workitout so is can update it
 	}
 
 	
 	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("Member:  ").append(ID).append("\n")
-		  .append("  Name:  ").append(LN).append(", ").append(FN).append("\n")
-		  .append("  Email: ").append(EM).append("\n")
-		  .append("  Phone: ").append(PN)
-		  .append("\n")
-		  .append(String.format("  Fines Owed :  $%.2f", FINES))
-		  .append("\n");
+		StringBuilder memberStringBuilder = new StringBuilder();
+		memberStringBuilder.append("Member:  ");
+		memberStringBuilder.append(memberId);
+		memberStringBuilder.append("\n");
+		memberStringBuilder.append("  Name:  ");
+		memberStringBuilder.append(memberLastName);
+		memberStringBuilder.append(", ");
+		memberStringBuilder.append(memberFirstName);
+		memberStringBuilder.append("\n");
+		memberStringBuilder.append("  Email: ");
+		memberStringBuilder.append(memberEmail);
+		memberStringBuilder.append("\n");
+		memberStringBuilder.append("  Phone: ");
+		memberStringBuilder.append(memberPhoneNumber);
+		memberStringBuilder.append("\n");
+		memberStringBuilder.append(String.format("  Fines Owed :  $%.2f", memberFines));
+		memberStringBuilder.append("\n");
 		
-		for (loan LoAn : LNS.values()) {
-			sb.append(LoAn).append("\n");
+		for (loan loan : memberLoans.values()) {
+			memberStringBuilder.append(loan).append("\n");
 		}		  
-		return sb.toString();
+		return memberStringBuilder.toString();
+	}
+
+	public int getId() {
+		return memberId;
+	}
+
+	public List<loan> getLoans() {
+		return new ArrayList<loan>(memberLoans.values());
 	}
 
 	
-	public int GeT_ID() {
-		return ID;
+	public int getNumberOfCurrentLoans() {
+		return memberLoans.size();
 	}
 
 	
-	public List<loan> GeT_LoAnS() {
-		return new ArrayList<loan>(LNS.values());
+	public double getFinesOwed() {
+		return memberFines;
 	}
 
 	
-	public int Number_Of_Current_Loans() {
-		return LNS.size();
-	}
-
-	
-	public double Fines_OwEd() {
-		return FINES;
-	}
-
-	
-	public void Take_Out_Loan(loan loan) {
-		if (!LNS.containsKey(loan.ID())) {
-			LNS.put(loan.ID(), loan);
+	public void takeOutLoan(loan loan) {
+		if (!memberLoans.containsKey(loan.getLoanId())) {
+			memberLoans.put(loan.getLoanId(), loan);
 		}
 		else {
 			throw new RuntimeException("Duplicate loan added to member");
@@ -75,43 +81,40 @@ public class member implements Serializable {
 	}
 
 	
-	public String Get_LastName() {
-		return LN;
+	public String getLastName() {
+		return memberLastName;
 	}
 
 	
-	public String Get_FirstName() {
-		return FN;
+	public String getFirstName() {
+		return memberFirstName;
 	}
 
 
-	public void Add_Fine(double fine) {
-		FINES += fine;
+	public void addFine(double fine) {
+		memberFines += fine;
 	}
 	
-	public double Pay_Fine(double AmOuNt) {
-		if (AmOuNt < 0) {
+	public double payFine(double amount) {
+		if (amount < 0) {
 			throw new RuntimeException("Member.payFine: amount must be positive");
 		}
 		double change = 0;
-		if (AmOuNt > FINES) {
-			change = AmOuNt - FINES;
-			FINES = 0;
+		if (amount > memberFines) {
+			change = amount - memberFines;
+			memberFines = 0;
 		}
 		else {
-			FINES -= AmOuNt;
+			memberFines -= amount;
 		}
 		return change;
 	}
-
-
-	public void dIsChArGeLoAn(loan LoAn) {
-		if (LNS.containsKey(LoAn.ID())) {
-			LNS.remove(LoAn.ID());
+	public void dischargeLoan(loan loan) {
+		if (memberLoans.containsKey(loan.getLoanId())) {
+			memberLoans.remove(loan.getLoanId());
 		}
 		else {
 			throw new RuntimeException("No such loan held by member");
 		}		
 	}
-
 }

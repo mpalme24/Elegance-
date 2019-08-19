@@ -1,88 +1,70 @@
 import java.util.Scanner;
 
-
 public class FixBookUI {
+	public static enum FixBookUiState {
+		INITIALISED, READY, FIXING, COMPLETED
+	};
 
-	public static enum UI_STATE { INITIALISED, READY, FIXING, COMPLETED };
+	private FixBookControl fixBookControl;
+	private Scanner keybordInput;
+	private FixBookUiState fixBookUiState;
 
-	private FixBookControl CoNtRoL;
-	private Scanner input;
-	private UI_STATE StAtE;
-
-	
-	public FixBookUI(FixBookControl control) {
-		this.CoNtRoL = control;
-		input = new Scanner(System.in);
-		StAtE = UI_STATE.INITIALISED;
-		control.Set_Ui(this);
+	public FixBookUI(FixBookControl inputControl) {
+		this.fixBookControl = inputControl;
+		keybordInput = new Scanner(System.in);
+		fixBookUiState = FixBookUiState.INITIALISED;
+		inputControl.setFixBookUi(this);
 	}
 
-
-	public void Set_State(UI_STATE state) {
-		this.StAtE = state;
+	public void setFixBookUiState(FixBookUiState state) {
+		this.fixBookUiState = state;
 	}
 
-	
-	public void RuN() {
+	public void runFixBookUi() {
 		output("Fix Book Use Case UI\n");
-		
 		while (true) {
-			
-			switch (StAtE) {
-			
+			switch (fixBookUiState) {
 			case READY:
-				String Book_STR = input("Scan Book (<enter> completes): ");
-				if (Book_STR.length() == 0) {
-					CoNtRoL.SCannING_COMplete();
-				}
-				else {
+				String bookIdString = input("Scan Book (<enter> completes): ");
+				if (bookIdString.length() == 0) {
+					fixBookControl.scanComplete();
+				} else {
 					try {
-						int Book_ID = Integer.valueOf(Book_STR).intValue();
-						CoNtRoL.Book_scanned(Book_ID);
-					}
-					catch (NumberFormatException e) {
+						Integer bookIdInteger = Integer.valueOf(bookIdString);
+						fixBookControl.setFixBookScanned(bookIdInteger.intValue());
+					} catch (NumberFormatException e) {
 						output("Invalid bookId");
 					}
 				}
-				break;	
-				
-			case FIXING:
-				String AnS = input("Fix Book? (Y/N) : ");
-				boolean FiX = false;
-				if (AnS.toUpperCase().equals("Y")) {
-					FiX = true;
-				}
-				CoNtRoL.FIX_Book(FiX);
 				break;
-								
+			case FIXING:
+				String answer = input("Fix Book? (Y/N) : ");
+				boolean bookFixed = false;
+				if (answer.toUpperCase().equals("Y")) {
+					bookFixed = true;
+				}
+				fixBookControl.setFixBook(bookFixed);
+				break;
 			case COMPLETED:
 				output("Fixing process complete");
 				return;
-			
 			default:
 				output("Unhandled state");
-				throw new RuntimeException("FixBookUI : unhandled state :" + StAtE);			
-			
-			}		
+				throw new RuntimeException("FixBookUI : unhandled state :" + fixBookUiState);
+			}
 		}
-		
 	}
 
-	
 	private String input(String prompt) {
 		System.out.print(prompt);
-		return input.nextLine();
-	}	
-		
-		
+		return keybordInput.nextLine();
+	}
+
 	private void output(Object object) {
 		System.out.println(object);
 	}
-	
 
 	public void display(Object object) {
 		output(object);
 	}
-	
-	
 }
