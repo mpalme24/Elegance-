@@ -12,7 +12,7 @@ public class PayFineControl {
 		fineState = FineControlState.INITIALISED;
 	}
 	
-	public void payFineUi(PayFineUI ui) {
+	public void setPayFineUi(PayFineUI ui) {
 		if (!fineState.equals(FineControlState.INITIALISED)) {
 			throw new RuntimeException("PayFineControl: cannot call payFine except in INITIALISED state");
 		}	

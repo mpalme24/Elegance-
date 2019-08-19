@@ -149,7 +149,7 @@ public class library implements Serializable {
 			return false;
 
 		for (loan loan : member.getLoans())
-			if (loan.getOverDueLoan())
+			if (loan.isLoanOverDue())
 				return false;
 
 		return true;
@@ -178,7 +178,7 @@ public class library implements Serializable {
 	}
 
 	public double getOverdueFine(loan inputLoan) {
-		if (inputLoan.getOverDueLoan()) {
+		if (inputLoan.isLoanOverDue()) {
 			long daysOverDue = Calendar.instanceCalendar().getDaysDifference(inputLoan.getDueDate());
 			double fine = daysOverDue * FINE_PER_DAY;
 			return fine;
@@ -187,8 +187,8 @@ public class library implements Serializable {
 	}
 
 	public void setDischargeLoan(loan currentLoan, boolean isDamaged) {
-		member member = currentLoan.Member();
-		book book = currentLoan.Book();
+		member member = currentLoan.member();
+		book book = currentLoan.book();
 
 		double overDueFine = getOverdueFine(currentLoan);
 		member.addFine(overDueFine);

@@ -6,12 +6,12 @@ public class FixBookUI {
 	};
 
 	private FixBookControl fixBookControl;
-	private Scanner keybordInput;
+	private Scanner keyboardInput;
 	private FixBookUiState fixBookUiState;
 
 	public FixBookUI(FixBookControl inputControl) {
 		this.fixBookControl = inputControl;
-		keybordInput = new Scanner(System.in);
+		keyboardInput = new Scanner(System.in);
 		fixBookUiState = FixBookUiState.INITIALISED;
 		inputControl.setFixBookUi(this);
 	}
@@ -27,7 +27,7 @@ public class FixBookUI {
 			case READY:
 				String bookIdString = input("Scan Book (<enter> completes): ");
 				if (bookIdString.length() == 0) {
-					fixBookControl.scanComplete();
+					fixBookControl.scannedComplete();
 				} else {
 					try {
 						Integer bookIdInteger = Integer.valueOf(bookIdString);
@@ -57,7 +57,7 @@ public class FixBookUI {
 
 	private String input(String prompt) {
 		System.out.print(prompt);
-		return keybordInput.nextLine();
+		return keyboardInput.nextLine();
 	}
 
 	private void output(Object object) {

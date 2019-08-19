@@ -13,7 +13,7 @@ public class PayFineUI {
 		this.control = control;
 		keyboardinput = new Scanner(System.in);
 		fineUiState = PayFineUiState.INITIALISED;
-		control.payFineUi(this);
+		control.setPayFineUi(this);
 	}
 
 	public void setFIneUiState(PayFineUiState state) {

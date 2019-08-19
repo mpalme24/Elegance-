@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class Main {
 
-	private static Scanner keybordInput;
+	private static Scanner keyboardInput;
 	private static library library;
 	private static String menu;
 	private static Calendar calendar;
@@ -35,7 +35,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		try {
-			keybordInput = new Scanner(System.in);
+			keyboardInput = new Scanner(System.in);
 			library = library.instanceLibrary();
 			calendar = Calendar.instanceCalendar();
 			simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -145,7 +145,7 @@ public class Main {
 
 	private static void borrowBook() {
 		BorrowBookControl borrowBookControl = new BorrowBookControl();
-		BorrowBookUI borrowBookUI = new BorrowBookUI(borrowBookControl);
+		BorrowBookUi borrowBookUI = new BorrowBookUi(borrowBookControl);
 		borrowBookUI.runBorrowBookUi();
 	}
 
@@ -202,7 +202,7 @@ public class Main {
 
 	private static String input(String prompt) {
 		System.out.print(prompt);
-		return keybordInput.nextLine();
+		return keyboardInput.nextLine();
 	}
 
 	private static void output(Object object) {

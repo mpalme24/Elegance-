@@ -6,15 +6,15 @@ public class ReturnBookUI {
 	public static enum ReturnBookUiState { INITIALISED, READY, INSPECTING, COMPLETED };
 
 	private ReturnBookControl returnBookUiControl;
-	private Scanner keybordInput;
+	private Scanner keyboardInput;
 	private ReturnBookUiState state;
 
 	
 	public ReturnBookUI(ReturnBookControl control) {
 		this.returnBookUiControl = control;
-		keybordInput = new Scanner(System.in);
+		keyboardInput = new Scanner(System.in);
 		state = ReturnBookUiState.INITIALISED;
-		control.returnBookSetUi(this);
+		control.setReturnBookUi(this);
 	}
 
 
@@ -67,7 +67,7 @@ public class ReturnBookUI {
 	
 	private String input(String prompt) {
 		System.out.print(prompt);
-		return keybordInput.nextLine();
+		return keyboardInput.nextLine();
 	}	
 		
 		
