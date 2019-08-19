@@ -50,7 +50,7 @@ public class BorrowBookControl {
 		}
 	}
 
-	public void scannBook(int bookId) {
+	public void scanneBook(int bookId) {
 		book = null;
 		if (!borrowBookState.equals(BookControlState.SCANNING)) {
 			throw new RuntimeException("BorrowBookControl: cannot call bookScanned except in SCANNING state");
