@@ -119,7 +119,7 @@ public class Main {
 	private static void payFines() {
 		PayFineControl PayFineControl = new PayFineControl();
 		PayFineUI payFineUI = new PayFineUI(PayFineControl);
-		payFineUI.runPayFineUi();
+		payFineUI.runPayFineUI();
 	}
 
 	private static void listCurrentLoans() {
@@ -146,19 +146,19 @@ public class Main {
 	private static void borrowBook() {
 		BorrowBookControl borrowBookControl = new BorrowBookControl();
 		BorrowBookUI borrowBookUI = new BorrowBookUI(borrowBookControl);
-		borrowBookUI.runBorrowBookUi();
+		borrowBookUI.runBorrowBookUI();
 	}
 
 	private static void returnBook() {
 		ReturnBookControl returnBookControl = new ReturnBookControl();
 		ReturnBookUI returnBookUI = new ReturnBookUI(returnBookControl);
-		returnBookUI.runReturnBookUi();
+		returnBookUI.runReturnBookUI();
 	}
 
 	private static void fixBook() {
 		FixBookControl fixBookControl = new FixBookControl();
 		FixBookUI fixBookUI = new FixBookUI(fixBookControl);
-		fixBookUI.runFixBookUi();
+		fixBookUI.runFixBookUI();
 	}
 
 	private static void incrementDate() {

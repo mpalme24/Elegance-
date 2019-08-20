@@ -1,29 +1,29 @@
 import java.util.Scanner;
 
 public class FixBookUI {
-	public static enum FixBookUiState {
+	public static enum FixBookUIState {
 		INITIALISED, READY, FIXING, COMPLETED
 	};
 
 	private FixBookControl fixBookControl;
 	private Scanner keyboardInput;
-	private FixBookUiState fixBookUiState;
+	private FixBookUIState fixBookUIState;
 
 	public FixBookUI(FixBookControl inputControl) {
 		this.fixBookControl = inputControl;
 		keyboardInput = new Scanner(System.in);
-		fixBookUiState = FixBookUiState.INITIALISED;
-		inputControl.setFixBookUi(this);
+		fixBookUIState = FixBookUIState.INITIALISED;
+		inputControl.setFixBookUI(this);
 	}
 
-	public void setFixBookUiState(FixBookUiState state) {
-		this.fixBookUiState = state;
+	public void setFixBookUIState(FixBookUIState state) {
+		this.fixBookUIState = state;
 	}
 
-	public void runFixBookUi() {
+	public void runFixBookUI() {
 		output("Fix Book Use Case UI\n");
 		while (true) {
-			switch (fixBookUiState) {
+			switch (fixBookUIState) {
 			case READY:
 				String bookIdString = input("Scan Book (<enter> completes): ");
 				if (bookIdString.length() == 0) {
@@ -50,7 +50,7 @@ public class FixBookUI {
 				return;
 			default:
 				output("Unhandled state");
-				throw new RuntimeException("FixBookUI : unhandled state :" + fixBookUiState);
+				throw new RuntimeException("FixBookUI : unhandled state :" + fixBookUIState);
 			}
 		}
 	}
