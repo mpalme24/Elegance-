@@ -27,7 +27,7 @@ public class FixBookUI {
 			case READY:
 				String bookIdString = input("Scan Book (<enter> completes): ");
 				if (bookIdString.length() == 0) {
-					fixBookControl.scannedComplete();
+					fixBookControl.scannComplete();
 				} else {
 					try {
 						Integer bookIdInteger = Integer.valueOf(bookIdString);

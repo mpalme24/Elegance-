@@ -3,7 +3,7 @@ import java.util.List;
 
 public class BorrowBookControl {
 
-	private BorrowBookUi borrowBookUi;
+	private BorrowBookUI borrowBookUi;
 	private library library1;
 	private member member;
 
@@ -22,12 +22,12 @@ public class BorrowBookControl {
 		borrowBookState = BookControlState.INITIALISED;
 	}
 
-	public void setBorrowBookUi(BorrowBookUi newUi) {
+	public void setBorrowBookUi(BorrowBookUI newUi) {
 		if (!borrowBookState.equals(BookControlState.INITIALISED)) {
 			throw new RuntimeException("BorrowBookControl: cannot call setBorrowBookUi except in INITIALISED state");
 		}
 		this.borrowBookUi = newUi;
-		newUi.setBorrowBookUiState(BorrowBookUi.BorrowBookUiState.READY);
+		newUi.setBorrowBookUiState(BorrowBookUI.BorrowBookUiState.READY);
 		borrowBookState = BookControlState.READY;
 	}
 
@@ -42,15 +42,15 @@ public class BorrowBookControl {
 		}
 		if (library1.memberCanBorrow(member)) {
 			pendingList = new ArrayList<>();
-			borrowBookUi.setBorrowBookUiState(BorrowBookUi.BorrowBookUiState.SCANNING);
+			borrowBookUi.setBorrowBookUiState(BorrowBookUI.BorrowBookUiState.SCANNING);
 			borrowBookState = BookControlState.SCANNING;
 		} else {
 			borrowBookUi.displays("Member cannot borrow at this time");
-			borrowBookUi.setBorrowBookUiState(BorrowBookUi.BorrowBookUiState.RESTRICTED);
+			borrowBookUi.setBorrowBookUiState(BorrowBookUI.BorrowBookUiState.RESTRICTED);
 		}
 	}
 
-	public void scannedBook(int bookId) {
+	public void scannBook(int bookId) {
 		book = null;
 		if (!borrowBookState.equals(BookControlState.SCANNING)) {
 			throw new RuntimeException("BorrowBookControl: cannot call bookScanned except in SCANNING state");
@@ -83,7 +83,7 @@ public class BorrowBookControl {
 				borrowBookUi.displays(book.toString());
 			}
 			completedList = new ArrayList<loan>();
-			borrowBookUi.setBorrowBookUiState(BorrowBookUi.BorrowBookUiState.FINALISING);
+			borrowBookUi.setBorrowBookUiState(BorrowBookUI.BorrowBookUiState.FINALISING);
 			borrowBookState = BookControlState.FINALISING;
 		}
 	}
@@ -100,12 +100,12 @@ public class BorrowBookControl {
 		for (loan loan : completedList) {
 			borrowBookUi.displays(loan.toString());
 		}
-		borrowBookUi.setBorrowBookUiState(BorrowBookUi.BorrowBookUiState.COMPLETED);
+		borrowBookUi.setBorrowBookUiState(BorrowBookUI.BorrowBookUiState.COMPLETED);
 		borrowBookState = BookControlState.COMPLETED;
 	}
 
 	public void cancelBookBorrow() {
-		borrowBookUi.setBorrowBookUiState(BorrowBookUi.BorrowBookUiState.CANCELLED);
+		borrowBookUi.setBorrowBookUiState(BorrowBookUI.BorrowBookUiState.CANCELLED);
 		borrowBookState = BookControlState.CANCELLED;
 	}
 

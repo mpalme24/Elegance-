@@ -6,19 +6,19 @@ public class BorrowBookUI {
 	};
 
 	private BorrowBookControl control;
-	private Scanner keybordinput;
+	private Scanner keyboardInput;
 	private BorrowBookUiState uiState;
 
 	public BorrowBookUI(BorrowBookControl inputControl) {
 		this.control = inputControl;
-		keybordinput = new Scanner(System.in);
+		keyboardInput = new Scanner(System.in);
 		uiState = BorrowBookUiState.INITIALISED;
 		inputControl.setBorrowBookUi(this);
 	}
 
 	private String input(String prompt) {
 		System.out.print(prompt);
-		return keybordinput.nextLine();
+		return keyboardInput.nextLine();
 	}
 
 	private void output(Object object) {
@@ -63,7 +63,7 @@ public class BorrowBookUI {
 				}
 				try {
 					Integer bookIdInteger = Integer.valueOf(bookIdString).intValue();
-					control.scanneBook(bookIdInteger);
+					control.scannBook(bookIdInteger);
 
 				} catch (NumberFormatException e) {
 					output("Invalid Book Id");
@@ -92,7 +92,7 @@ public class BorrowBookUI {
 		}
 	}
 
-	public void Display(Object object) {
+	public void displays(Object object) {
 		output(object);
 	}
 }

@@ -17,7 +17,7 @@ public class PayFineControl {
 			throw new RuntimeException("PayFineControl: cannot call payFine except in INITIALISED state");
 		}	
 		this.payFineUi = ui;
-		ui.setFIneUiState(PayFineUI.PayFineUiState.READY);
+		ui.setFineUiState(PayFineUI.PayFineUiState.READY);
 		fineState = FineControlState.READY;		
 	}
 
@@ -32,12 +32,12 @@ public class PayFineControl {
 			return;
 		}
 		payFineUi.display(member.toString());
-		payFineUi.setFIneUiState(PayFineUI.PayFineUiState.PAYING);
+		payFineUi.setFineUiState(PayFineUI.PayFineUiState.PAYING);
 		fineState = FineControlState.PAYING;
 	}
 	
 	public void cancelFinePayment() {
-		payFineUi.setFIneUiState(PayFineUI.PayFineUiState.CANCELLED);
+		payFineUi.setFineUiState(PayFineUI.PayFineUiState.CANCELLED);
 		fineState = FineControlState.CANCELLED;
 	}
 
@@ -51,7 +51,7 @@ public class PayFineControl {
 			payFineUi.display(change);
 		}
 		payFineUi.display(member.toString());
-		payFineUi.setFIneUiState(PayFineUI.PayFineUiState.COMPLETED);
+		payFineUi.setFineUiState(PayFineUI.PayFineUiState.COMPLETED);
 		fineState = FineControlState.COMPLETED;
 		return changeFromFine;
 	}

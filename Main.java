@@ -145,7 +145,7 @@ public class Main {
 
 	private static void borrowBook() {
 		BorrowBookControl borrowBookControl = new BorrowBookControl();
-		BorrowBookUi borrowBookUI = new BorrowBookUi(borrowBookControl);
+		BorrowBookUI borrowBookUI = new BorrowBookUI(borrowBookControl);
 		borrowBookUI.runBorrowBookUi();
 	}
 
