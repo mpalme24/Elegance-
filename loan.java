@@ -29,7 +29,7 @@ public class loan implements Serializable {
 	}
 
 	
-	public boolean getOverDueLoan() {
+	public boolean isLoanOverDue() {
 		return loanState == LoanState.OVER_DUE;
 	}
 
@@ -67,12 +67,12 @@ public class loan implements Serializable {
 		return loanStringBuilder.toString();
 	}
 
-	public member Member() {
+	public member member() {
 		return member;
 	}
 
 
-	public book Book() {
+	public book book() {
 		return book;
 	}
 

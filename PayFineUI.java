@@ -1,29 +1,29 @@
 import java.util.Scanner;
 
 public class PayFineUI {
-	public static enum PayFineUiState {
+	public static enum PayFineUIState {
 		INITIALISED, READY, PAYING, COMPLETED, CANCELLED
 	};
 
 	private PayFineControl control;
 	private Scanner keyboardinput;
-	private PayFineUiState fineUiState;
+	private PayFineUIState fineUIState;
 
 	public PayFineUI(PayFineControl control) {
 		this.control = control;
 		keyboardinput = new Scanner(System.in);
-		fineUiState = PayFineUiState.INITIALISED;
-		control.payFineUi(this);
+		fineUIState = PayFineUIState.INITIALISED;
+		control.setPayFineUI(this);
 	}
 
-	public void setFIneUiState(PayFineUiState state) {
-		this.fineUiState = state;
+	public void setFineUIState(PayFineUIState state) {
+		this.fineUIState = state;
 	}
 
-	public void runPayFineUi() {
+	public void runPayFineUI() {
 		output("Pay Fine Use Case UI\n");
 		while (true) {
-			switch (fineUiState) {
+			switch (fineUIState) {
 			case READY:
 				String memberIdString = input("Swipe member card (press <enter> to cancel): ");
 				if (memberIdString.length() == 0) {
@@ -68,7 +68,7 @@ public class PayFineUI {
 
 			default:
 				output("Unhandled state");
-				throw new RuntimeException("FixBookUI : unhandled state :" + fineUiState);
+				throw new RuntimeException("FixBookUI : unhandled state :" + fineUIState);
 
 			}
 		}

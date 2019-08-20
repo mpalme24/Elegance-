@@ -1,6 +1,6 @@
 public class PayFineControl {
 	
-	private PayFineUI payFineUi;
+	private PayFineUI payFineUI;
 	private enum FineControlState { INITIALISED, READY, PAYING, COMPLETED, CANCELLED };
 	private FineControlState fineState;
 	
@@ -12,12 +12,12 @@ public class PayFineControl {
 		fineState = FineControlState.INITIALISED;
 	}
 	
-	public void payFineUi(PayFineUI ui) {
+	public void setPayFineUI(PayFineUI uI) {
 		if (!fineState.equals(FineControlState.INITIALISED)) {
 			throw new RuntimeException("PayFineControl: cannot call payFine except in INITIALISED state");
 		}	
-		this.payFineUi = ui;
-		ui.setFIneUiState(PayFineUI.PayFineUiState.READY);
+		this.payFineUI = uI;
+		uI.setFineUIState(PayFineUI.PayFineUIState.READY);
 		fineState = FineControlState.READY;		
 	}
 
@@ -28,16 +28,16 @@ public class PayFineControl {
 		member = library.getMember(memberId);
 		
 		if (member == null) {
-			payFineUi.display("Invalid Member Id");
+			payFineUI.display("Invalid Member Id");
 			return;
 		}
-		payFineUi.display(member.toString());
-		payFineUi.setFIneUiState(PayFineUI.PayFineUiState.PAYING);
+		payFineUI.display(member.toString());
+		payFineUI.setFineUIState(PayFineUI.PayFineUIState.PAYING);
 		fineState = FineControlState.PAYING;
 	}
 	
 	public void cancelFinePayment() {
-		payFineUi.setFIneUiState(PayFineUI.PayFineUiState.CANCELLED);
+		payFineUI.setFineUIState(PayFineUI.PayFineUIState.CANCELLED);
 		fineState = FineControlState.CANCELLED;
 	}
 
@@ -48,10 +48,10 @@ public class PayFineControl {
 		double changeFromFine = member.payFine(fineAmount);
 		if (changeFromFine > 0) {
 			String change = String.format("Change: $%.2f", changeFromFine);
-			payFineUi.display(change);
+			payFineUI.display(change);
 		}
-		payFineUi.display(member.toString());
-		payFineUi.setFIneUiState(PayFineUI.PayFineUiState.COMPLETED);
+		payFineUI.display(member.toString());
+		payFineUI.setFineUIState(PayFineUI.PayFineUIState.COMPLETED);
 		fineState = FineControlState.COMPLETED;
 		return changeFromFine;
 	}

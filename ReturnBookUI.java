@@ -3,22 +3,22 @@ import java.util.Scanner;
 
 public class ReturnBookUI {
 
-	public static enum ReturnBookUiState { INITIALISED, READY, INSPECTING, COMPLETED };
+	public static enum ReturnBookUIState { INITIALISED, READY, INSPECTING, COMPLETED };
 
-	private ReturnBookControl returnBookUiControl;
-	private Scanner keybordInput;
-	private ReturnBookUiState state;
+	private ReturnBookControl returnBookUIControl;
+	private Scanner keyboardInput;
+	private ReturnBookUIState state;
 
 	
 	public ReturnBookUI(ReturnBookControl control) {
-		this.returnBookUiControl = control;
-		keybordInput = new Scanner(System.in);
-		state = ReturnBookUiState.INITIALISED;
-		control.returnBookSetUi(this);
+		this.returnBookUIControl = control;
+		keyboardInput = new Scanner(System.in);
+		state = ReturnBookUIState.INITIALISED;
+		control.setReturnBookUI(this);
 	}
 
 
-	public void runReturnBookUi() {		
+	public void runReturnBookUI() {		
 		output("Return Book Use Case UI\n");
 		
 		while (true) {
@@ -31,13 +31,13 @@ public class ReturnBookUI {
 			case READY:
 				String bookIdString = input("Scan Book (<enter> completes): ");
 				if (bookIdString.length() == 0) {
-					returnBookUiControl.bookScanningCompleted();
+					returnBookUIControl.bookScanningCompleted();
 				}
 				else {
 					try {
 						Integer bookIdInteger = Integer.valueOf(bookIdString);
 						int bookIdInt=bookIdInteger.intValue();
-						returnBookUiControl.bookScanned(bookIdInt);
+						returnBookUIControl.bookScanned(bookIdInt);
 					}
 					catch (NumberFormatException e) {
 						output("Invalid bookId");
@@ -51,7 +51,7 @@ public class ReturnBookUI {
 				if (answer.toUpperCase().equals("Y")) {					
 					bookIsDamaged = true;
 				}
-				returnBookUiControl.dischargeLoan(bookIsDamaged);
+				returnBookUIControl.dischargeLoan(bookIsDamaged);
 			
 			case COMPLETED:
 				output("Return processing complete");
@@ -67,7 +67,7 @@ public class ReturnBookUI {
 	
 	private String input(String prompt) {
 		System.out.print(prompt);
-		return keybordInput.nextLine();
+		return keyboardInput.nextLine();
 	}	
 		
 		
@@ -80,7 +80,7 @@ public class ReturnBookUI {
 		output(object);
 	}
 	
-	public void setReturnState(ReturnBookUiState state) {
+	public void setReturnState(ReturnBookUIState state) {
 		this.state = state;
 	}
 

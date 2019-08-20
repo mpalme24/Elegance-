@@ -1,33 +1,33 @@
 import java.util.Scanner;
 
 public class FixBookUI {
-	public static enum FixBookUiState {
+	public static enum FixBookUIState {
 		INITIALISED, READY, FIXING, COMPLETED
 	};
 
 	private FixBookControl fixBookControl;
-	private Scanner keybordInput;
-	private FixBookUiState fixBookUiState;
+	private Scanner keyboardInput;
+	private FixBookUIState fixBookUIState;
 
 	public FixBookUI(FixBookControl inputControl) {
 		this.fixBookControl = inputControl;
-		keybordInput = new Scanner(System.in);
-		fixBookUiState = FixBookUiState.INITIALISED;
-		inputControl.setFixBookUi(this);
+		keyboardInput = new Scanner(System.in);
+		fixBookUIState = FixBookUIState.INITIALISED;
+		inputControl.setFixBookUI(this);
 	}
 
-	public void setFixBookUiState(FixBookUiState state) {
-		this.fixBookUiState = state;
+	public void setFixBookUIState(FixBookUIState state) {
+		this.fixBookUIState = state;
 	}
 
-	public void runFixBookUi() {
+	public void runFixBookUI() {
 		output("Fix Book Use Case UI\n");
 		while (true) {
-			switch (fixBookUiState) {
+			switch (fixBookUIState) {
 			case READY:
 				String bookIdString = input("Scan Book (<enter> completes): ");
 				if (bookIdString.length() == 0) {
-					fixBookControl.scanComplete();
+					fixBookControl.scannComplete();
 				} else {
 					try {
 						Integer bookIdInteger = Integer.valueOf(bookIdString);
@@ -50,14 +50,14 @@ public class FixBookUI {
 				return;
 			default:
 				output("Unhandled state");
-				throw new RuntimeException("FixBookUI : unhandled state :" + fixBookUiState);
+				throw new RuntimeException("FixBookUI : unhandled state :" + fixBookUIState);
 			}
 		}
 	}
 
 	private String input(String prompt) {
 		System.out.print(prompt);
-		return keybordInput.nextLine();
+		return keyboardInput.nextLine();
 	}
 
 	private void output(Object object) {

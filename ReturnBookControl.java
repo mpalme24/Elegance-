@@ -1,76 +1,76 @@
 public class ReturnBookControl {
 
-	private ReturnBookUI returnBookUi;
-	private enum RetunrBookControlState { INITIALISED, READY, INSPECTING };
-	private RetunrBookControlState state;
+	private ReturnBookUI returnBookUI;
+	private enum ReturnBookControlState { INITIALISED, READY, INSPECTING };
+	private ReturnBookControlState state;
 	
-	private library library;
+	private library library1;
 	private loan currentLoan;
 	
 
 	public ReturnBookControl() {
-		this.library = library.instanceLibrary();
-		state = RetunrBookControlState.INITIALISED;
+		this.library1 = library1.instanceLibrary();
+		state = ReturnBookControlState.INITIALISED;
 	}
 	
 	
-	public void returnBookSetUi(ReturnBookUI ui) {
-		if (!state.equals(RetunrBookControlState.INITIALISED)) {
+	public void setReturnBookUI(ReturnBookUI uI) {
+		if (!state.equals(ReturnBookControlState.INITIALISED)) {
 			throw new RuntimeException("ReturnBookControl: cannot call setUI except in INITIALISED state");
 		}	
-		this.returnBookUi = ui;
-		ui.setReturnState(ReturnBookUI.ReturnBookUiState.READY);
-		state = RetunrBookControlState.READY;		
+		this.returnBookUI = uI;
+		uI.setReturnState(ReturnBookUI.ReturnBookUIState.READY);
+		state = ReturnBookControlState.READY;		
 	}
 
 
 	public void bookScanned(int bookId) {
-		if (!state.equals(RetunrBookControlState.READY)) {
+		if (!state.equals(ReturnBookControlState.READY)) {
 			throw new RuntimeException("ReturnBookControl: cannot call bookScanned except in READY state");
 		}	
-		book currentBook = library.getBook(bookId);
+		book currentBook = library1.getBook(bookId);
 		
 		if (currentBook == null) {
-			returnBookUi.display("Invalid Book Id");
+			returnBookUI.display("Invalid Book Id");
 			return;
 		}
 		if (!currentBook.getBookStateOnloan()) {
-			returnBookUi.display("Book has not been borrowed");
+			returnBookUI.display("Book has not been borrowed");
 			return;
 		}		
-		currentLoan = library.getLoanByBookId(bookId);	
+		currentLoan = library1.getLoanByBookId(bookId);	
 		double overdueFine = 0.0;
-		if (currentLoan.getOverDueLoan()) {
-			overdueFine = library.getOverdueFine(currentLoan);
+		if (currentLoan.isLoanOverDue()) {
+			overdueFine = library1.getOverdueFine(currentLoan);
 		}
-		returnBookUi.display("Inspecting");
-		returnBookUi.display(currentBook.toString());
-		returnBookUi.display(currentLoan.toString());
+		returnBookUI.display("Inspecting");
+		returnBookUI.display(currentBook.toString());
+		returnBookUI.display(currentLoan.toString());
 		
-		if (currentLoan.getOverDueLoan()) {
-			returnBookUi.display(String.format("\nOverdue fine : $%.2f", overdueFine));
+		if (currentLoan.isLoanOverDue()) {
+			returnBookUI.display(String.format("\nOverdue fine : $%.2f", overdueFine));
 		}
-		returnBookUi.setReturnState(ReturnBookUI.ReturnBookUiState.INSPECTING);
-		state = RetunrBookControlState.INSPECTING;		
+		returnBookUI.setReturnState(ReturnBookUI.ReturnBookUIState.INSPECTING);
+		state = ReturnBookControlState.INSPECTING;		
 	}
 
 
 	public void bookScanningCompleted() {
-		if (!state.equals(RetunrBookControlState.READY)) {
+		if (!state.equals(ReturnBookControlState.READY)) {
 			throw new RuntimeException("ReturnBookControl: cannot call scanningComplete except in READY state");
 		}	
-		returnBookUi.setReturnState(ReturnBookUI.ReturnBookUiState.COMPLETED);		
+		returnBookUI.setReturnState(ReturnBookUI.ReturnBookUIState.COMPLETED);		
 	}
 
 
 	public void dischargeLoan(boolean isBookDamaged) {
-		if (!state.equals(RetunrBookControlState.INSPECTING)) {
+		if (!state.equals(ReturnBookControlState.INSPECTING)) {
 			throw new RuntimeException("ReturnBookControl: cannot call dischargeLoan except in INSPECTING state");
 		}	
-		library.setDischargeLoan(currentLoan, isBookDamaged);
+		library1.setDischargeLoan(currentLoan, isBookDamaged);
 		currentLoan = null;
-		returnBookUi.setReturnState(ReturnBookUI.ReturnBookUiState.READY);
-		state = RetunrBookControlState.READY;				
+		returnBookUI.setReturnState(ReturnBookUI.ReturnBookUIState.READY);
+		state = ReturnBookControlState.READY;				
 	}
 
 
