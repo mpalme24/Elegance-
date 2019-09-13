@@ -5,74 +5,78 @@ import java.util.Date;
 @SuppressWarnings("serial")
 public class loan implements Serializable {
 	
-	public static enum LOAN_STATE { CURRENT, OVER_DUE, DISCHARGED };
+	public static enum LoanState { CURRENT, OVER_DUE, DISCHARGED };
 	
-	private int ID;
-	private book B;
-	private member M;
-	private date D;
-	private loanState state;
+	private int loanId;
+	private book book;
+	private member member;
+	private Date dueDate;
+	private LoanState loanState;
 
-	
 	public loan(int loanId, book book, member member, Date dueDate) {
-		this.ID = loanId;
-		this.b = book;
-		this.m = member;
-		this.d = dueDate;
-		this.state = LOAN_STATE.CURRENT;
+		this.loanId = loanId;
+		this.book = book;
+		this.member = member;
+		this.dueDate = dueDate;
+		this.loanState = LoanState.CURRENT;
 	}
 
-	
 	public void checkOverDue() {
-		if (state == LOAN_STATE.CURRENT &&
-			Calendar.INSTANCE().Date().after(D)) {
-			this.state = LOAN_STATE.OVER_DUE;			
+		if (loanState == LoanState.CURRENT &&
+			Calendar.instanceCalendar().date().after(dueDate)) {
+			this.loanState = LoanState.OVER_DUE;			
 		}
 	}
 
 	
-	public boolean overDue() {
-		return state == LOAN_STATE.OVER_DUE;
+	public boolean isLoanOverDue() {
+		return loanState == LoanState.OVER_DUE;
 	}
 
-	
-	public Integer ID() {
-		return ID;
+	public Integer getLoanId() {
+		return loanId;
 	}
-
 
 	public Date getDueDate() {
-		return D;
+		return dueDate;
 	}
-	
 	
 	public String toString() {
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-
-		StringBuilder sb = new StringBuilder();
-		sb.append("Loan:  ").append(ID).append("\n")
-		  .append("  Borrower ").append(m.getID()).append(" : ")
-		  .append(m.getLastName()).append(", ").append(m.getFirstName()).append("\n")
-		  .append("  Book ").append(b.ID()).append(" : " )
-		  .append(b.title()).append("\n")
-		  .append("  DueDate: ").append(sdf.format(D)).append("\n")
-		  .append("  State: ").append(state);		
-		return sb.toString();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		StringBuilder loanStringBuilder = new StringBuilder();
+		loanStringBuilder.append("Loan:  ");
+		loanStringBuilder.append(loanId);
+		loanStringBuilder.append("\n");
+		loanStringBuilder.append("  Borrower ");
+		loanStringBuilder.append(member.getId());
+		loanStringBuilder.append(" : ");
+		loanStringBuilder.append(member.getLastName());
+		loanStringBuilder.append(", ");
+		loanStringBuilder.append(member.getFirstName());
+		loanStringBuilder.append("\n");
+		loanStringBuilder.append("  Book ");
+		loanStringBuilder.append(book.getBookId());
+		loanStringBuilder.append(" : ");
+		loanStringBuilder.append(book.getBookTitle());
+		loanStringBuilder.append("\n");
+		loanStringBuilder.append("  DueDate: ");
+		loanStringBuilder.append(dateFormat.format(dueDate));
+		loanStringBuilder.append("\n");
+		loanStringBuilder.append("  State: ");
+		loanStringBuilder.append(loanState);
+		return loanStringBuilder.toString();
 	}
 
-
 	public member member() {
-		return m;
+		return member;
 	}
 
 
 	public book book() {
-		return b;
+		return book;
 	}
-
 
 	public void discharge() {
-		state = loanStateDischarged;		
+		loanState = LoanState.DISCHARGED;		
 	}
-
 }
