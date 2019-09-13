@@ -1,2 +1,2 @@
 # Elegance-
-ITC205 - Version Control Repository 
+ITC205 - Version Control Repo 

@@ -3,22 +3,22 @@ import java.util.Scanner;
 
 public class ReturnBookUI {
 
-	public static enum UI_STATE { INITIALISED, READY, INSPECTING, COMPLETED };
+	public static enum ReturnBookUIState { INITIALISED, READY, INSPECTING, COMPLETED };
 
-	private ReturnBookControl control;
-	private Scanner input;
-	private uiState state;
+	private ReturnBookControl returnBookUIControl;
+	private Scanner keyboardInput;
+	private ReturnBookUIState state;
 
 	
 	public ReturnBookUI(ReturnBookControl control) {
-		this.control = control;
-		input = new Scanner(System.in);
-		state = uiState.INITIALISED;
-		control.setUI(this);
+		this.returnBookUIControl = control;
+		keyboardInput = new Scanner(System.in);
+		state = ReturnBookUIState.INITIALISED;
+		control.setReturnBookUI(this);
 	}
 
 
-	public void Run() {		
+	public void runReturnBookUI() {		
 		output("Return Book Use Case UI\n");
 		
 		while (true) {
@@ -29,14 +29,15 @@ public class ReturnBookUI {
 				break;
 				
 			case READY:
-				String bookSTR = input("Scan Book (<enter> completes): ");
-				if (bookSTR.length() == 0) {
-					control.scanningComplete();
+				String bookIdString = input("Scan Book (<enter> completes): ");
+				if (bookIdString.length() == 0) {
+					returnBookUIControl.bookScanningCompleted();
 				}
 				else {
 					try {
-						int bookID = Integer.valueOf(bookSTR).intValue();
-						control.bookScanned(bookID);
+						Integer bookIdInteger = Integer.valueOf(bookIdString);
+						int bookIdInt=bookIdInteger.intValue();
+						returnBookUIControl.bookScanned(bookIdInt);
 					}
 					catch (NumberFormatException e) {
 						output("Invalid bookId");
@@ -45,12 +46,12 @@ public class ReturnBookUI {
 				break;				
 				
 			case INSPECTING:
-				String ans = input("Is book damaged? (Y/N): ");
-				boolean isDamaged = false;
-				if (ans.toUpperCase().equals("Y")) {					
-					isDamaged = true;
+				String answer = input("Is book damaged? (Y/N): ");
+				boolean bookIsDamaged = false;
+				if (answer.toUpperCase().equals("Y")) {					
+					bookIsDamaged = true;
 				}
-				control.dischargeLoan(isDamaged);
+				returnBookUIControl.dischargeLoan(bookIsDamaged);
 			
 			case COMPLETED:
 				output("Return processing complete");
@@ -66,7 +67,7 @@ public class ReturnBookUI {
 	
 	private String input(String prompt) {
 		System.out.print(prompt);
-		return input.nextLine();
+		return keyboardInput.nextLine();
 	}	
 		
 		
@@ -79,7 +80,7 @@ public class ReturnBookUI {
 		output(object);
 	}
 	
-	public void setState(UI_STATE state) {
+	public void setReturnState(ReturnBookUIState state) {
 		this.state = state;
 	}
 
