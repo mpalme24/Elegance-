@@ -3,41 +3,40 @@ import java.util.Scanner;
 
 public class ReturnBookUI {
 
-	public static enum ReturnBookUIState { INITIALISED, READY, INSPECTING, COMPLETED };
+	public static enum UI_STATE { INITIALISED, READY, INSPECTING, COMPLETED };
 
-	private ReturnBookControl returnBookUIControl;
-	private Scanner keyboardInput;
-	private ReturnBookUIState state;
+	private ReturnBookControl CoNtRoL;
+	private Scanner input;
+	private UI_STATE StATe;
 
 	
 	public ReturnBookUI(ReturnBookControl control) {
-		this.returnBookUIControl = control;
-		keyboardInput = new Scanner(System.in);
-		state = ReturnBookUIState.INITIALISED;
-		control.setReturnBookUI(this);
+		this.CoNtRoL = control;
+		input = new Scanner(System.in);
+		StATe = UI_STATE.INITIALISED;
+		control.Set_UI(this);
 	}
 
 
-	public void runReturnBookUI() {		
+	public void RuN() {		
 		output("Return Book Use Case UI\n");
 		
 		while (true) {
 			
-			switch (state) {
+			switch (StATe) {
 			
 			case INITIALISED:
 				break;
 				
 			case READY:
-				String bookIdString = input("Scan Book (<enter> completes): ");
-				if (bookIdString.length() == 0) {
-					returnBookUIControl.bookScanningCompleted();
+				String Book_STR = input("Scan Book (<enter> completes): ");
+				if (Book_STR.length() == 0) {
+					CoNtRoL.Scanning_Complete();
 				}
 				else {
 					try {
-						Integer bookIdInteger = Integer.valueOf(bookIdString);
-						int bookIdInt=bookIdInteger.intValue();
-						returnBookUIControl.bookScanned(bookIdInt);
+						int Book_Id = Integer.valueOf(Book_STR).intValue();
+						CoNtRoL.Book_scanned(Book_Id);
 					}
 					catch (NumberFormatException e) {
 						output("Invalid bookId");
@@ -46,12 +45,12 @@ public class ReturnBookUI {
 				break;				
 				
 			case INSPECTING:
-				String answer = input("Is book damaged? (Y/N): ");
-				boolean bookIsDamaged = false;
-				if (answer.toUpperCase().equals("Y")) {					
-					bookIsDamaged = true;
+				String ans = input("Is book damaged? (Y/N): ");
+				boolean Is_Damaged = false;
+				if (ans.toUpperCase().equals("Y")) {					
+					Is_Damaged = true;
 				}
-				returnBookUIControl.dischargeLoan(bookIsDamaged);
+				CoNtRoL.Discharge_loan(Is_Damaged);
 			
 			case COMPLETED:
 				output("Return processing complete");
@@ -59,7 +58,7 @@ public class ReturnBookUI {
 			
 			default:
 				output("Unhandled state");
-				throw new RuntimeException("ReturnBookUI : unhandled state :" + state);			
+				throw new RuntimeException("ReturnBookUI : unhandled state :" + StATe);			
 			}
 		}
 	}
@@ -67,7 +66,7 @@ public class ReturnBookUI {
 	
 	private String input(String prompt) {
 		System.out.print(prompt);
-		return keyboardInput.nextLine();
+		return input.nextLine();
 	}	
 		
 		
@@ -80,8 +79,8 @@ public class ReturnBookUI {
 		output(object);
 	}
 	
-	public void setReturnState(ReturnBookUIState state) {
-		this.state = state;
+	public void Set_State(UI_STATE state) {
+		this.StATe = state;
 	}
 
 	
