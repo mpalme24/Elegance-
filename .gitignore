@@ -1,0 +1,6 @@
+*.class
+*.obj
+.classpath
+.project
+/bin/
+
