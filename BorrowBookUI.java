@@ -1,19 +1,19 @@
 import java.util.Scanner;
 
-public class BorrowBookUI {
-	public static enum BorrowBookUIState {
+public class BorrowBookUi {
+	public static enum BorrowBookUiState {
 		INITIALISED, READY, RESTRICTED, SCANNING, IDENTIFIED, FINALISING, COMPLETED, CANCELLED
 	};
 
 	private BorrowBookControl control;
 	private Scanner keyboardInput;
-	private BorrowBookUIState stateUI;
+	private BorrowBookUiState uiState;
 
-	public BorrowBookUI(BorrowBookControl inputControl) {
+	public BorrowBookUi(BorrowBookControl inputControl) {
 		this.control = inputControl;
 		keyboardInput = new Scanner(System.in);
-		stateUI = BorrowBookUIState.INITIALISED;
-		inputControl.setBorrowBookUI(this);
+		uiState = BorrowBookUiState.INITIALISED;
+		inputControl.setBorrowBookUi(this);
 	}
 
 	private String input(String prompt) {
@@ -25,14 +25,14 @@ public class BorrowBookUI {
 		System.out.println(object);
 	}
 
-	public void setBorrowBookUIState(BorrowBookUIState stateUI) {
-		this.stateUI = stateUI;
+	public void setBorrowBookUiState(BorrowBookUiState uiState) {
+		this.uiState = uiState;
 	}
 
-	public void runBorrowBookUI() {
+	public void runBorrowBookUi() {
 		output("Borrow Book Use Case UI\n");
 		while (true) {
-			switch (stateUI) {
+			switch (uiState) {
 			case CANCELLED:
 				output("Borrowing Cancelled");
 				return;
@@ -63,7 +63,7 @@ public class BorrowBookUI {
 				}
 				try {
 					Integer bookIdInteger = Integer.valueOf(bookIdString).intValue();
-					control.scannBook(bookIdInteger);
+					control.scannedBook(bookIdInteger);
 
 				} catch (NumberFormatException e) {
 					output("Invalid Book Id");
@@ -87,7 +87,7 @@ public class BorrowBookUI {
 
 			default:
 				output("Unhandled state");
-				throw new RuntimeException("BorrowBookUI : unhandled state :" + stateUI);
+				throw new RuntimeException("BorrowBookUI : unhandled state :" + uiState);
 			}
 		}
 	}
