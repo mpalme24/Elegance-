@@ -1,5 +1,8 @@
 *.class
+<<<<<<< HEAD
 *.obj
+=======
+>>>>>>> master
 /bin/
 .classpath
 .project

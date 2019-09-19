@@ -8,7 +8,7 @@ public class PayFineControl {
 	private member member;
 
 	public PayFineControl() {
-		this.library = library.instanceLibrary();
+		this.library = library.INSTANCE();
 		fineState = FineControlState.INITIALISED;
 	}
 	
@@ -25,7 +25,7 @@ public class PayFineControl {
 		if (!fineState.equals(FineControlState.READY)) {
 			throw new RuntimeException("PayFineControl: cannot call cardSwiped except in READY state");
 		}	
-		member = library.getMember(memberId);
+		member = library.MEMBER(memberId);
 		
 		if (member == null) {
 			payFineUI.display("Invalid Member Id");

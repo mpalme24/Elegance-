@@ -4,12 +4,12 @@ public class ReturnBookControl {
 	private enum ReturnBookControlState { INITIALISED, READY, INSPECTING };
 	private ReturnBookControlState state;
 	
-	private library library1;
+	private library library;
 	private loan currentLoan;
 	
 
 	public ReturnBookControl() {
-		this.library1 = library1.instanceLibrary();
+		this.library = library.INSTANCE();
 		state = ReturnBookControlState.INITIALISED;
 	}
 	
@@ -28,26 +28,26 @@ public class ReturnBookControl {
 		if (!state.equals(ReturnBookControlState.READY)) {
 			throw new RuntimeException("ReturnBookControl: cannot call bookScanned except in READY state");
 		}	
-		book currentBook = library1.getBook(bookId);
+		book currentBook = library.Book(bookId);
 		
 		if (currentBook == null) {
 			returnBookUI.display("Invalid Book Id");
 			return;
 		}
-		if (!currentBook.getBookStateOnloan()) {
+		if (!currentBook.On_loan()) {
 			returnBookUI.display("Book has not been borrowed");
 			return;
 		}		
-		currentLoan = library1.getLoanByBookId(bookId);	
+		currentLoan = library.LOAN_BY_BOOK_ID(bookId);	
 		double overdueFine = 0.0;
-		if (currentLoan.isLoanOverDue()) {
-			overdueFine = library1.getOverdueFine(currentLoan);
+		if (currentLoan.OVer_Due()) {
+			overdueFine = library.CalculateOverDueFine(currentLoan);
 		}
 		returnBookUI.display("Inspecting");
 		returnBookUI.display(currentBook.toString());
 		returnBookUI.display(currentLoan.toString());
 		
-		if (currentLoan.isLoanOverDue()) {
+		if (currentLoan.OVer_Due()) {
 			returnBookUI.display(String.format("\nOverdue fine : $%.2f", overdueFine));
 		}
 		returnBookUI.setReturnState(ReturnBookUI.ReturnBookUIState.INSPECTING);
@@ -67,7 +67,7 @@ public class ReturnBookControl {
 		if (!state.equals(ReturnBookControlState.INSPECTING)) {
 			throw new RuntimeException("ReturnBookControl: cannot call dischargeLoan except in INSPECTING state");
 		}	
-		library1.setDischargeLoan(currentLoan, isBookDamaged);
+		library.Discharge_loan(currentLoan, isBookDamaged);
 		currentLoan = null;
 		returnBookUI.setReturnState(ReturnBookUI.ReturnBookUIState.READY);
 		state = ReturnBookControlState.READY;				

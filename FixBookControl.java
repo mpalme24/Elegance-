@@ -10,7 +10,7 @@ public class FixBookControl {
 	private book currentBook;
 
 	public FixBookControl() {
-		this.library = library.instanceLibrary();
+		this.library = library.INSTANCE();
 		fixBookState = FixBookControlState.INITIALISED;
 	}
 
@@ -27,12 +27,12 @@ public class FixBookControl {
 		if (!fixBookState.equals(FixBookControlState.READY)) {
 			throw new RuntimeException("FixBookControl: cannot call fixBookScanned except in READY state");
 		}
-		currentBook = library.getBook(bookId);
+		currentBook = library.Book(bookId);
 		if (currentBook == null) {
 			fixBookUI.display("Invalid bookId");
 			return;
 		}
-		if (!currentBook.getBookStateIsDamaged()) {
+		if (!currentBook.IS_Damaged()) {
 			fixBookUI.display("Book has not been damaged");
 			return;
 		}
@@ -46,7 +46,7 @@ public class FixBookControl {
 			throw new RuntimeException("FixBookControl: cannot call setFixBook except in FIXING state");
 		}
 		if (isBookInFixState) {
-			library.repairBook(currentBook);
+			library.Repair_BOOK(currentBook);
 		}
 		currentBook = null;
 		fixBookUI.setFixBookUIState(FixBookUI.FixBookUIState.READY);

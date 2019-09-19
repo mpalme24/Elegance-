@@ -36,15 +36,15 @@ public class Main {
 	public static void main(String[] args) {
 		try {
 			keyboardInput = new Scanner(System.in);
-			library = library.instanceLibrary();
+			library = library.INSTANCE();
 			calendar = Calendar.instanceCalendar();
 			simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
-			for (member member : library.currentMembers()) {
+			for (member member : library.MEMBERS()) {
 				output(member);
 			}
 			output(" ");
-			for (book book : library.currentBooks()) {
+			for (book book : library.BOOKS()) {
 				output(book);
 			}
 
@@ -108,7 +108,7 @@ public class Main {
 					break;
 				}
 
-				library.saveLibrary();
+				library.SAVE();
 			}
 		} catch (RuntimeException e) {
 			output(e);
@@ -124,21 +124,21 @@ public class Main {
 
 	private static void listCurrentLoans() {
 		output("");
-		for (loan loan : library.currentLoans()) {
+		for (loan loan : library.CurrentLoans()) {
 			output(loan + "\n");
 		}
 	}
 
 	private static void listBooks() {
 		output("");
-		for (book book : library.currentBooks()) {
+		for (book book : library.BOOKS()) {
 			output(book + "\n");
 		}
 	}
 
 	private static void listMembers() {
 		output("");
-		for (member member : library.currentMembers()) {
+		for (member member : library.MEMBERS()) {
 			output(member + "\n");
 		}
 	}
@@ -179,7 +179,7 @@ public class Main {
 		String author = input("Enter author: ");
 		String title = input("Enter title: ");
 		String callNumber = input("Enter call number: ");
-		book book = library.addBook(author, title, callNumber);
+		book book = library.Add_book(author, title, callNumber);
 		output("\n" + book + "\n");
 
 	}
@@ -192,7 +192,7 @@ public class Main {
 			String phoneNumberString = input("Enter phone number: ");
 			Integer phoneNumberInteger = Integer.valueOf(phoneNumberString);
 			int phoneNumber = phoneNumberInteger.intValue();
-			member member = library.addMember(lastName, firstName, email, phoneNumber);
+			member member = library.Add_mem(lastName, firstName, email, phoneNumber);
 			output("\n" + member + "\n");
 
 		} catch (NumberFormatException e) {
