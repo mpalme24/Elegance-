@@ -4,7 +4,7 @@ import java.util.List;
 public class BorrowBookControl {
 
 	private BorrowBookUI borrowBookUI;
-	private library library1;
+	private library library;
 	private member member;
 
 	private enum BookControlState {
@@ -18,7 +18,7 @@ public class BorrowBookControl {
 	private book book;
 
 	public BorrowBookControl() {
-		this.library1 = library1.instanceLibrary();
+		this.library = library.instanceLibrary();
 		borrowBookState = BookControlState.INITIALISED;
 	}
 
@@ -35,12 +35,12 @@ public class BorrowBookControl {
 		if (!borrowBookState.equals(BookControlState.READY)) {
 			throw new RuntimeException("BorrowBookControl: cannot call cardSwiped except in READY state");
 		}
-		member = library1.getMember(memberId);
+		member = library.getMember(memberId);
 		if (member == null) {
 			borrowBookUI.displays("Invalid memberId");
 			return;
 		}
-		if (library1.memberCanBorrow(member)) {
+		if (library.memberCanBorrow(member)) {
 			pendingList = new ArrayList<>();
 			borrowBookUI.setBorrowBookUIState(BorrowBookUI.BorrowBookUIState.SCANNING);
 			borrowBookState = BookControlState.SCANNING;
@@ -55,7 +55,7 @@ public class BorrowBookControl {
 		if (!borrowBookState.equals(BookControlState.SCANNING)) {
 			throw new RuntimeException("BorrowBookControl: cannot call bookScanned except in SCANNING state");
 		}
-		book = library1.getBook(bookId);
+		book = library.getBook(bookId);
 		if (book == null) {
 			borrowBookUI.displays("Invalid bookId");
 			return;
@@ -68,7 +68,7 @@ public class BorrowBookControl {
 		for (book book : pendingList) {
 			borrowBookUI.displays(book.toString());
 		}
-		if ((library1.getLoanRemaining(member) - pendingList.size()) == 0) {
+		if ((library.getLoanRemaining(member) - pendingList.size()) == 0) {
 			borrowBookUI.displays("Loan limit reached");
 			borrowComplete();
 		}
@@ -93,7 +93,7 @@ public class BorrowBookControl {
 			throw new RuntimeException("BorrowBookControl: cannot call commitLoans except in FINALISING state");
 		}
 		for (book book : pendingList) {
-			loan loan = library1.issueLoan(book, member);
+			loan loan = library.issueLoan(book, member);
 			completedList.add(loan);
 		}
 		borrowBookUI.displays("Completed Loan Slip");

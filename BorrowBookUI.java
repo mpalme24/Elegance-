@@ -1,19 +1,19 @@
 import java.util.Scanner;
 
-public class BorrowBookUi {
-	public static enum BorrowBookUiState {
+public class BorrowBookUI {
+	public static enum BorrowBookUIState {
 		INITIALISED, READY, RESTRICTED, SCANNING, IDENTIFIED, FINALISING, COMPLETED, CANCELLED
 	};
 
 	private BorrowBookControl control;
 	private Scanner keyboardInput;
-	private BorrowBookUiState uiState;
+	private BorrowBookUIState uiState;
 
-	public BorrowBookUi(BorrowBookControl inputControl) {
+	public BorrowBookUI(BorrowBookControl inputControl) {
 		this.control = inputControl;
 		keyboardInput = new Scanner(System.in);
-		uiState = BorrowBookUiState.INITIALISED;
-		inputControl.setBorrowBookUi(this);
+		uiState = BorrowBookUIState.INITIALISED;
+		inputControl.setBorrowBookUI(this);
 	}
 
 	private String input(String prompt) {
@@ -25,11 +25,11 @@ public class BorrowBookUi {
 		System.out.println(object);
 	}
 
-	public void setBorrowBookUiState(BorrowBookUiState uiState) {
+	public void setBorrowBookUIState(BorrowBookUIState uiState) {
 		this.uiState = uiState;
 	}
 
-	public void runBorrowBookUi() {
+	public void runBorrowBookUI() {
 		output("Borrow Book Use Case UI\n");
 		while (true) {
 			switch (uiState) {
@@ -63,7 +63,7 @@ public class BorrowBookUi {
 				}
 				try {
 					Integer bookIdInteger = Integer.valueOf(bookIdString).intValue();
-					control.scannedBook(bookIdInteger);
+					control.scannBook(bookIdInteger);
 
 				} catch (NumberFormatException e) {
 					output("Invalid Book Id");
