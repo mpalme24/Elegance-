@@ -55,7 +55,7 @@ public class library implements Serializable {
 				try (ObjectInputStream LiF = new ObjectInputStream(new FileInputStream(libraryFile));) {
 			    
 					self = (library) LiF.readObject();
-					Calendar.INSTANCE().setDate(self.loanDate);
+					Calendar.INSTANCE().Set_dATE(self.loanDate);
 					LiF.close();
 				}
 				catch (Exception e) {
@@ -125,7 +125,7 @@ public class library implements Serializable {
 
 	public member addMem(String lastName, String firstName, String email, int phoneNo) {		
 		member member = new member(lastName, firstName, email, phoneNo, nextMid());
-		members.put(member.getID(), member);		
+		members.put(member.get_ID(), member);		
 		return member;
 	}
 
@@ -163,7 +163,7 @@ public class library implements Serializable {
 		if (member.finesOwed() >= maxFinesOwed) 
 			return false;
 				
-		for (loan loan : member.getLoans()) 
+		for (loan loan : member.get_Loans()) 
 			if (loan.overDue()) 
 				return false;
 			
@@ -177,8 +177,8 @@ public class library implements Serializable {
 
 	
 	public loan issueLoan(book book, member member) {
-		Date dueDate = Calendar.INSTANCE().dueDate(loanPeriod);
-		loan loan = new loan(NextLID(), book, member, dueDate);
+		Date dueDate = Calendar.INSTANCE().Due_Date(loanPeriod);
+		loan loan = new loan(nextLid(), book, member, dueDate);
 		member.takeOutLoan(loan);
 		book.Borrow();
 		loans.put(loan.ID(), loan);
@@ -197,7 +197,7 @@ public class library implements Serializable {
 	
 	public double calculateOverDueFine(loan loan) {
 		if (loan.overDue()) {
-			long daysOverDue = Calendar.INSTANCE().getDaysDifference(loan.getDueDate());
+			long daysOverDue = Calendar.INSTANCE().Get_Days_Difference(loan.getDueDate());
 			double fine = daysOverDue * finePerDay;
 			return fine;
 		}
@@ -206,8 +206,8 @@ public class library implements Serializable {
 
 
 	public void dischargeLoan(loan currentLoan, boolean isDamaged) {
-		member member = currentLoan.Member();
-		book book  = currentLoan.Book();
+		member member = currentLoan.member();
+		book book  = currentLoan.book();
 		
 		double overDueFine = calculateOverDueFine(currentLoan);
 		member.addFine(overDueFine);	
@@ -232,7 +232,7 @@ public class library implements Serializable {
 
 	public void repairBook(book currentBook) {
 		if (damagedBooks.containsKey(currentBook.ID())) {
-			currentBook.Repair();
+			currentBook.repair();
 			damagedBooks.remove(currentBook.ID());
 		}
 		else {

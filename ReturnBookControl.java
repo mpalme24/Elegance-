@@ -19,7 +19,7 @@ public class ReturnBookControl {
 			throw new RuntimeException("ReturnBookControl: cannot call setUI except in INITIALISED state");
 		}	
 		this.Ui = ui;
-		ui.Set_State(ReturnBookUI.UI_STATE.READY);
+		ui.setState(ReturnBookUI.UI_STATE.READY);
 		sTaTe = CONTROL_STATE.READY;		
 	}
 
@@ -34,23 +34,23 @@ public class ReturnBookControl {
 			Ui.display("Invalid Book Id");
 			return;
 		}
-		if (!CUR_book.On_loan()) {
+		if (!CUR_book.onLoan()) {
 			Ui.display("Book has not been borrowed");
 			return;
 		}		
-		CurrENT_loan = lIbRaRy.LOAN_BY_BOOK_ID(Book_ID);	
+		CurrENT_loan = lIbRaRy.loanByBookID(Book_ID);	
 		double Over_Due_Fine = 0.0;
-		if (CurrENT_loan.OVer_Due()) {
-			Over_Due_Fine = lIbRaRy.CalculateOverDueFine(CurrENT_loan);
+		if (CurrENT_loan.overDue()) {
+			Over_Due_Fine = lIbRaRy.calculateOverDueFine(CurrENT_loan);
 		}
 		Ui.display("Inspecting");
 		Ui.display(CUR_book.toString());
 		Ui.display(CurrENT_loan.toString());
 		
-		if (CurrENT_loan.OVer_Due()) {
+		if (CurrENT_loan.overDue()) {
 			Ui.display(String.format("\nOverdue fine : $%.2f", Over_Due_Fine));
 		}
-		Ui.Set_State(ReturnBookUI.UI_STATE.INSPECTING);
+		Ui.setState(ReturnBookUI.UI_STATE.INSPECTING);
 		sTaTe = CONTROL_STATE.INSPECTING;		
 	}
 
@@ -59,7 +59,7 @@ public class ReturnBookControl {
 		if (!sTaTe.equals(CONTROL_STATE.READY)) {
 			throw new RuntimeException("ReturnBookControl: cannot call scanningComplete except in READY state");
 		}	
-		Ui.Set_State(ReturnBookUI.UI_STATE.COMPLETED);		
+		Ui.setState(ReturnBookUI.UI_STATE.COMPLETED);		
 	}
 
 
@@ -67,9 +67,9 @@ public class ReturnBookControl {
 		if (!sTaTe.equals(CONTROL_STATE.INSPECTING)) {
 			throw new RuntimeException("ReturnBookControl: cannot call dischargeLoan except in INSPECTING state");
 		}	
-		lIbRaRy.Discharge_loan(CurrENT_loan, isDamaged);
+		lIbRaRy.dischargeLoan(CurrENT_loan, isDamaged);
 		CurrENT_loan = null;
-		Ui.Set_State(ReturnBookUI.UI_STATE.READY);
+		Ui.setState(ReturnBookUI.UI_STATE.READY);
 		sTaTe = CONTROL_STATE.READY;				
 	}
 

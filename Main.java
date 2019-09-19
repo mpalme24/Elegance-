@@ -44,11 +44,11 @@ public class Main {
 			CAL = Calendar.INSTANCE();
 			SDF = new SimpleDateFormat("dd/MM/yyyy");
 	
-			for (member m : LIB.MEMBERS()) {
+			for (member m : LIB.members()) {
 				output(m);
 			}
 			output(" ");
-			for (book b : LIB.BOOKS()) {
+			for (book b : LIB.books()) {
 				output(b);
 			}
 						
@@ -127,7 +127,7 @@ public class Main {
 
 	private static void CURRENT_LOANS() {
 		output("");
-		for (loan loan : LIB.CurrentLoans()) {
+		for (loan loan : LIB.currentLoans()) {
 			output(loan + "\n");
 		}		
 	}
@@ -136,7 +136,7 @@ public class Main {
 
 	private static void BOOKS() {
 		output("");
-		for (book book : LIB.BOOKS()) {
+		for (book book : LIB.books()) {
 			output(book + "\n");
 		}		
 	}
@@ -145,7 +145,7 @@ public class Main {
 
 	private static void MEMBERS() {
 		output("");
-		for (member member : LIB.MEMBERS()) {
+		for (member member : LIB.members()) {
 			output(member + "\n");
 		}		
 	}
@@ -158,7 +158,7 @@ public class Main {
 
 
 	private static void RETURN_BOOK() {
-		new ReturnBookUI(new ReturnBookControl()).RuN();		
+		new ReturnBookUI(new ReturnBookControl()).Run();		
 	}
 
 
@@ -185,7 +185,7 @@ public class Main {
 		String A = input("Enter author: ");
 		String T  = input("Enter title: ");
 		String C = input("Enter call number: ");
-		book B = LIB.Add_book(A, T, C);
+		book B = LIB.addBook(A, T, C);
 		output("\n" + B + "\n");
 		
 	}
@@ -197,7 +197,7 @@ public class Main {
 			String FN  = input("Enter first name: ");
 			String EM = input("Enter email: ");
 			int PN = Integer.valueOf(input("Enter phone number: ")).intValue();
-			member M = LIB.Add_mem(LN, FN, EM, PN);
+			member M = LIB.addMem(LN, FN, EM, PN);
 			output("\n" + M + "\n");
 			
 		} catch (NumberFormatException e) {

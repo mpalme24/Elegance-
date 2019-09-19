@@ -34,7 +34,7 @@ public class FixBookControl {
 			UI.display("Invalid bookId");
 			return;
 		}
-		if (!Cur_Book.IS_Damaged()) {
+		if (!Cur_Book.isDamaged()) {
 			UI.display("Book has not been damaged");
 			return;
 		}
@@ -49,7 +49,7 @@ public class FixBookControl {
 			throw new RuntimeException("FixBookControl: cannot call fixBook except in FIXING state");
 		}	
 		if (MUST_fix) {
-			LIB.Repair_BOOK(Cur_Book);
+			LIB.repairBook(Cur_Book);
 		}
 		Cur_Book = null;
 		UI.Set_State(FixBookUI.UI_STATE.READY);
